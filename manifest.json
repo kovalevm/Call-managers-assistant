@@ -1,0 +1,34 @@
+{
+    "manifest_version": 2,
+
+    "name": "Call manager`s assistant",
+    "version": "0.0.1",
+
+    "description": "Не знаешь, есть ли сайт у нас на продвижении? Я помогу узнать!",
+    "icons": {
+        "16": "img/16x16.png",
+        "32": "img/32x32.png",
+        "48": "img/48x48.png",
+        "128": "img/128x128.png"
+    },
+
+"content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "css": ["css/mystyle.css"],
+      "js": ["notmyscripts/jquery.js", "myscript.js"]
+    }
+  ],
+  "permissions": [
+    "storage",
+    "webRequest",
+    "tabs",
+    "<all_urls>"
+  ],
+
+    "browser_action": {
+        "default_title": "Call manager`s assistant",
+        "default_icon": "img/48x48.png",
+        "default_popup": "popup/popup.html"
+    }
+ }

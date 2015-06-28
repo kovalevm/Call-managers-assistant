@@ -1,0 +1,96 @@
+.checkbox-ol {
+  /*width:16px;
+  height:16px;*/
+  margin:0px 5px;
+}
+
+.bad-li-ol {
+  color:rgb(132, 128, 128);
+}
+
+.bad-li-ol {
+  font-style:italic;
+  }
+
+.li-ol {
+  margin:15px 0px;
+}
+
+#btnOpenIssueLinks {
+  margin:5px 0px;
+}
+
+td .serchTerms {
+	padding:2px 7px;
+	border:1px solid black;
+	font:13px Arial;
+	line-height: 20px
+}
+
+table.LiSS {
+/*border:1px solid black; border-collapse: collapse;*/ margin:20px 3px;
+}
+
+table.LiSS td {
+	/*border:1px solid black;*/
+	font:13px Arial;
+	padding:2px 7px;
+}
+
+.bold-words {
+  font:13px Arial;
+  background: blanchedalmond;
+display: inline-block;
+}
+
+.issue a{
+  color: #070;
+  text-decoration: none;
+
+}
+.issue h3 {
+  margin: 0 0 2px 0;
+  /*display: inline;*/
+
+}
+.issue li {
+  /*border: 1px solid black;*/
+  box-shadow: 0px 0px 5px rgba(0,0,0,.2);
+  
+}
+.bold-words-div h3, .bold-words-div p {
+  margin: 3px 0;
+}
+
+td.counters-table__cell-chosen.counters-table__body-cell {
+    padding: 0px 3px 0;
+    vertical-align: middle;
+}
+
+
+td.counters-table__cell-status.counters-table__body-cell {padding: 0 3px; vertical-align: middle;}
+
+td.counters-table__cell-title.counters-table__body-cell {padding: 0 3px; vertical-align: middle;}
+
+td.counters-table__cell-visits.counters-table__body-cell {padding: 0; vertical-align: middle;}
+
+td.counters-table__cell-chart.counters-table__body-cell {padding: 0;}
+
+td.counters-table__cell-counter-type.counters-table__body-cell {padding: 0; display: none;}
+th.counters-table__head-cell.counters-table__head-cell_type_counter-type {padding: 0; display: none;}
+
+td.counters-table__cell-webcounter.counters-table__body-cell {padding: 0; display: none;}
+th.counters-table__head-cell.counters-table__head-cell_type_webcounter {padding: 0; display: none;}
+
+td.counters-table__cell-grants.counters-table__body-cell {padding: 0;display: none;}
+th.counters-table__head-cell.counters-table__head-cell_type_controls {padding: 0;display: none;}
+
+td.counters-table__cell-controls.counters-table__body-cell {padding: 0;}
+
+td.counters-table__cell-removes.counters-table__body-cell {padding: 0;}
+
+table.counters-table.counters-table_type_all.counters__table.i-bem.counters-table_js_inited { width:900px}
+
+.counters-table__info {
+    display: none;
+}
