@@ -15,6 +15,7 @@
 "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
+        "exclude_matches" : ["https*://*yandex.ru/*", "https*://*google.ru/*", "https*://*bunker-yug.ru/*"],
       "css": ["css/mystyle.css"],
       "js": ["notmyscripts/jquery.js", "myscript.js"]
     }
