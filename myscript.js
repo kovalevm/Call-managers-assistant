@@ -58,6 +58,6 @@ function createMessage(infoFromBunker) {
 
 function addBannerToTopPage(message) {
     $('body').prepend(
-    '<div id="mkmessage" style="width: 100%; background-color: rgb(255, 74, 74);  position: fixed;  top: 0;  left: 0;  z-index: 100500000000; text-align: center; ">    <span id="mk_close" style="width: 23px;	height: 21px; position: absolute;	top: 5px;	right: 10px;	cursor: pointer;display: block;background-color: white;  border-radius: 50%;  font-size: 20px;">X</span>    <p style="margin:5px 0; font-size: 24px; color:black">'+ message +'</p> <p style="margin:0; font-size:15px; color:black"> <label for="notAlertToday"><input type="checkbox" id="notAlertToday">Не оповещать меня сегодня об этом</label></p></div>'
+    '<div id="mkmessage" ><span id="mk_close" >X</span><p >'+ message +'</p> <p style="margin:0; font-size:15px;"> <label for="notAlertToday"><input type="checkbox" id="notAlertToday">Не оповещать меня сегодня об этом</label></p></div>'
     )
 }
