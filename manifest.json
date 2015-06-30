@@ -15,7 +15,9 @@
 "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-        "exclude_matches" : ["https*://*yandex.ru/*", "https*://*google.ru/*", "https*://*bunker-yug.ru/*"],
+    "exclude_matches": ["https://yandex.ru/*","https://www.yandex.ru/*","http://yandex.ru/*","http://www.yandex.ru/*",
+                       "https://google.ru/*","https://www.google.ru/*","http://google.ru/*","http://www.google.ru/*",
+                       "https://bunker-yug.ru/*","https://www.bunker-yug.ru/*","http://bunker-yug.ru/*","http://www.bunker-yug.ru/*"],
       "css": ["css/mystyle.css"],
       "js": ["notmyscripts/jquery.js", "myscript.js"]
     }
