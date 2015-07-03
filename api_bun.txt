@@ -34,3 +34,7 @@ http://bunker-yug.ru/seo_status.php?d=evrazia-san.ru&psw=Ob_k0j_WBeu95fJIPUdv
 [14:50:49] IT | Сергей: 002   -  ошибка базы данных
 [14:51:15] IT | Сергей: 003  -  скорей всего никогда не возникнет
 [14:51:31] IT | Сергей: 004   -   домен не задан
+
+
+http://bunker-yug.ru/seo_status.php?d=damian-yug.ru&psw=Ob_k0j_WBeu95fJIPUdv
+{"result":"ok","code":"002","seo":"1","date":"1 Июня 15","status":"3"}
