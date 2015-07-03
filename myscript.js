@@ -7,29 +7,58 @@ $(document).ready(function() {
          }
 
         CallManagersAssistant = JSON.parse(CallManagersAssistant);
-
+        console.log(CallManagersAssistant);
         if ($.isEmptyObject(CallManagersAssistant.BD[hostname])) {
-             //запрос
-            CallManagersAssistant.BD[hostname] = {
-                  thereInBunker : true,
-                  status : 'не крутим',
-                  reportingDate : '14 апр 1147',
-                  notAlertClickTime : 0
-              }
+
+             $.ajax({
+        	type: "GET",
+            url: "http://bunker-yug.ru/seo_status.php",
+            data: "d="+ hostname +"&psw=Ob_k0j_WBeu95fJIPUdv",
+            cache: false,
+            success: function(data){
+
+                data = JSON.parse(data);
+                console.log(data);
+                if (data.result == 'err') {
+                    console.log('CallManagersAssistant error, server answer - ' + data);
+                    CallManagersAssistant.BD[hostname].thereInBunker = false;
+                } else if (data.code == '001')  {
+                    CallManagersAssistant.BD[hostname].thereInBunker = false;
+                }
+                else if (data.result == 'ok' && data.code == '002') {
+                    CallManagersAssistant.BD[hostname] = {
+                      thereInBunker : true,
+                      status : data.status,
+                      reportingDate : data.date,
+                      notAlertClickTime : 0
+                  }
+                } else {
+                     CallManagersAssistant.BD[hostname].thereInBunker = false;
+                }
+
+                checkNeedBannerOrNot(CallManagersAssistant.BD[hostname]);
+            }
+            });
+
+
         }
 
-        if ( CallManagersAssistant.BD[hostname].thereInBunker) {
-            var today = new Date();
-            if (!(  (CallManagersAssistant.BD[hostname].notAlertClickTime + (12*60*60*1000)) > today.getTime()   )) {
-                    showBanner(CallManagersAssistant.BD[hostname]);
-                }
-        }
+
+
 
         chrome.storage.local.set({'CallManagersAssistant': JSON.stringify(CallManagersAssistant)});
      });
  });
 
 
+ function checkNeedBannerOrNot(hostnameInfo)  {
+        if ( hostnameInfo.thereInBunker) {
+            var today = new Date();
+            if (!(  (hostnameInfo.notAlertClickTime + (12*60*60*1000)) > today.getTime()   )) {
+                    showBanner(hostnameInfo);
+                }
+        }
+    }
 
 function showBanner(infoFromBunker) {
     console.log(createMessage(infoFromBunker));
