@@ -1,0 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    width: 350px;
+    /*            height: 600px;*/
+    background: #ececec;
+/*    border: 1px solid black;*/
+}
+blockquote:before,
+blockquote:after {
+    font-size: 2em;
+    color: #800;
+}
+blockquote:before {
+    content: '«';
+    float: left;
+    margin-top: -0.4em;
+}
+blockquote:after {
+    content: '»';
+    float: right;
+    margin-top: -2.0em;
+}
+blockquote p {
+    margin: 1em 2em;
+    font-style: italic;
+    font-size: 13px;
+    text-align: justify;
+}
