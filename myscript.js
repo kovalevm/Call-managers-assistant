@@ -3,13 +3,17 @@ var milisecondInDay = (24 * 60 * 60 * 1000);
 $(document).ready(function () {
     chrome.storage.local.get('CallManagersAssistant', function (result) {
         var CallManagersAssistant = result['CallManagersAssistant'];
+        //console.log(result);
         if ($.isEmptyObject(CallManagersAssistant)) {
-           var CallManagersAssistant = new Object();
+            //console.log(CallManagersAssistant);
+            CallManagersAssistant = new Object();
+            CallManagersAssistant.BD = new Object();
+        } else {
+            CallManagersAssistant = JSON.parse(CallManagersAssistant);
         }
-
-        CallManagersAssistant = JSON.parse(CallManagersAssistant);
         console.log(CallManagersAssistant);
-        if ($.isEmptyObject(CallManagersAssistant.BD[hostname]) || ((CallManagersAssistant.BD[hostname].ajaxTime + milisecondInDay * 30) > (new Date()).getTime())) {
+
+        if ($.isEmptyObject(CallManagersAssistant.BD[hostname]) || ((CallManagersAssistant.BD[hostname].ajaxTime + milisecondInDay * 30) < (new Date()).getTime())) {
 
             $.ajax({
                 type: "GET",
@@ -23,9 +27,9 @@ $(document).ready(function () {
                     console.log(data);
                     if (data.result === 'err') {
                         console.log('CallManagersAssistant error, server answer - ' + data);
-                        CallManagersAssistant.BD[hostname].thereInBunker = false;
+                        CallManagersAssistant.BD[hostname] = { thereInBunker : false };
                     } else if (data.code === '001') {
-                        CallManagersAssistant.BD[hostname].thereInBunker = false;
+                         CallManagersAssistant.BD[hostname] = { thereInBunker : false };
                     } else if (data.result === 'ok' && data.code === '002') {
                         CallManagersAssistant.BD[hostname] = {
                             thereInBunker: true,
@@ -39,13 +43,17 @@ $(document).ready(function () {
                     }
 
                     checkNeedBannerOrNot(CallManagersAssistant.BD[hostname]);
+                    chrome.storage.local.set({
+                        'CallManagersAssistant': JSON.stringify(CallManagersAssistant)
+                    });
                 }
             });
+        } else {
+            checkNeedBannerOrNot(CallManagersAssistant.BD[hostname]);
+
         }
 
-       // chrome.storage.local.set({
-    //        'CallManagersAssistant': JSON.stringify(CallManagersAssistant)
-      //  });
+
     });
 });
 
@@ -60,7 +68,7 @@ function checkNeedBannerOrNot(hostnameInfo) {
 }
 
 function showBanner(infoFromBunker) {
-    console.log(createMessage(infoFromBunker));
+    //console.log(createMessage(infoFromBunker));
     addBannerToTopPage(createMessage(infoFromBunker), detectedStatus(infoFromBunker.status));
 
     $('#mk_close').click(function () { // ловим клик по крестику
@@ -72,6 +80,7 @@ function showBanner(infoFromBunker) {
         chrome.storage.local.get('CallManagersAssistant', function (result) {
             var CallManagersAssistant = result['CallManagersAssistant'];
             CallManagersAssistant = JSON.parse(CallManagersAssistant);
+            //console.log(CallManagersAssistant.BD);
             CallManagersAssistant.BD[hostname].notAlertClickTime = today.getTime();
             chrome.storage.local.set({
                 'CallManagersAssistant': JSON.stringify(CallManagersAssistant)
@@ -83,13 +92,13 @@ function showBanner(infoFromBunker) {
 
 function createMessage(infoFromBunker) {
     var status = detectedStatus(infoFromBunker.status);
-    return 'Есть в базе. Статус продвижения - ' + status + ', отчетная дата - ' + infoFromBunker.reportingDate + '.';
+    return 'Есть в базе. Статус продвижения - <ins>' + status + '</ins>, отчетная дата - ' + infoFromBunker.reportingDate + '.';
 }
 
 function addBannerToTopPage(message, status) {
     var banner = '<div id="mkmessage" style="background-color:';
     if (status === 'продвигается') banner += 'rgb(255, 74, 74)';
-    else banner += 'green';
+    else banner += 'rgb(75, 240, 75)';
     $('body').prepend(
         banner + ' "><span id="mk_close" >X</span><p>' + message + '</p> <p style="margin:0; font-size:15px;"> <label for="notAlertToday"><input type="checkbox" id="notAlertToday">Не оповещать меня сегодня об этом</label></p></div>'
     );
