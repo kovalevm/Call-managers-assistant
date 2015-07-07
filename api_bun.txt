@@ -39,3 +39,5 @@ http://bunker-yug.ru/seo_status.php?d=evrazia-san.ru&psw=Ob_k0j_WBeu95fJIPUdv
 http://bunker-yug.ru/seo_status.php?d=damian-yug.ru&psw=Ob_k0j_WBeu95fJIPUdv
 {"result":"ok","code":"002","seo":"1","date":"1 Июня 15","status":"3"}
 
+http://bunker-yug.ru/seo_status.php?login=mishako&pass=183_004
+
