@@ -8,6 +8,19 @@ body {
     background: #ececec;
 /*    border: 1px solid black;*/
 }
+
+.bunker-form {
+    width: 300px;
+
+}
+
+.message {
+
+}
+blockquote {
+margin-top: 20px;
+}
+
 blockquote:before,
 blockquote:after {
     font-size: 2em;

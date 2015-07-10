@@ -3,15 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Call manager`s assistant</title>
+    <script src="../notmyscripts/jquery.js"></script>
    <link rel="stylesheet" href="popup.css">
-   <script src="popup.js"></script>
+
 </head>
 <body>
+<table class="bunker-form">
+    <tr><th colspan="2">Введите логин и пароль от бункера:</th></tr>
+    <tr>
+        <td><span>Логин:</span></td>
+        <td> <input id="bunkerLogin" type="text"></td>
+    </tr>
+    <tr>
+        <td><span>Пароль:</span></td>
+        <td><input id="bunkerPassword" type="password"></td>
+    </tr>
+    <tr>
+        <td colspan="2"><button id="bunkerBtn">Сохранить и подключиться</button>
+        </td>
+    </tr>
+</table>
+<p class="bunker-message"></p>
 <!--    <button>Очистить историю</button>-->
       <blockquote>
-   <p>Ничто не производит на клиента большего впечатления, чем сознание того факта, что вы потратили на свое время и усилия, чтобы собрать информацию о его ситуации и способах решения его проблем.
+   <p>Ничто не производит на клиента большего впечатления, чем осознание того факта, что вы потратили на него свое время и усилия, чтобы собрать информацию о его ситуации и способах решения его проблем.
 </p>
    <p>Брайан Трейси</p>
   </blockquote>
+  <script src="popup.js"></script>
 </body>
 </html>
