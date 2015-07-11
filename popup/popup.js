@@ -1,6 +1,6 @@
-//$('#cleanBD').click(function() {
-//
-//});
+$('#cleanBD').click(function() {
+ chrome.storage.local.remove('CallManagersAssistant', function () {});
+});
 
 $(document).ready(function () {
     chrome.storage.local.get('CallManagersAssistant', function (result) {
@@ -29,11 +29,13 @@ function validateLoginAndPass(bunker) {
 
 function saveLoginAndPass(bunker) {
 
+    try
     chrome.storage.local.get('CallManagersAssistant', function (result) {
         var CallManagersAssistant = result['CallManagersAssistant'];
         CallManagersAssistant = JSON.parse(CallManagersAssistant);
         CallManagersAssistant.login = bunker.login;
         CallManagersAssistant.pass = bunker.pass;
+        CallManagersAssistant.logAndPassСorrectly = bunker.logAndPassСorrectly;
         chrome.storage.local.set({
             'CallManagersAssistant': JSON.stringify(CallManagersAssistant)
         });
@@ -59,9 +61,13 @@ $('#bunkerBtn').click(function () {
     bunkerResponse = JSON.parse(bunkerResponse);
     if (bunkerResponse.code === '004') {
         message = 'Логин и пароль введены верно. Можно приступать к работе. Удачи!';
-        saveLoginAndPass(bunker);
-    } else message = 'Логин или пароль введены не верно.';
+        bunker.logAndPassСorrectly = true;
+    } else {
+        message = 'Логин или пароль введены не верно.';
+        bunker.logAndPassСorrectly = false;
+    }
     console.log(message);
+    saveLoginAndPass(bunker);
     $('.bunker-message').text(message);
 
 });
