@@ -4,62 +4,71 @@ var month = milisecInDay * 30;
 
 chrome.storage.local.get('CallManagersAssistant', function (result) {
     var CMA = result['CallManagersAssistant'];
-    console.log(CMA);
+    //console.log(CMA);
     if ($.isEmptyObject(CMA)) {
         CMA = new Object();
         CMA.BD = new Object();
     } else {
         CMA = JSON.parse(CMA);
     }
-    console.log(CMA);
 
-    //Проверка: правильно ли ввден пароль и логин
-    if (!!CMA.logAndPassСorrectly || !CMA.logAndPassСorrectly) {
+    if (!!!CMA.logAndPassСorrectly || CMA.logAndPassСorrectly === false) {
         inputLoginAndPasswordBitch();
         return; //выход
     }
 
+    //console.log(CMA);
+
     // Проверка есть ли инфа об этом сайте в памяти и не старше ли она месяца
     var todayTime = (new Date()).getTime();
-    if (!$.isEmptyObject(CMA.BD[hostname]) || ((CMA.BD[hostname].ajaxTime + month) > todayTime)) {
+    if (!!CMA.BD[hostname] && ((CMA.BD[hostname].ajaxTime + month) > todayTime)) {
         checkNeedBannerOrNot(CMA.BD[hostname]);
         return; //выход
     }
 
-    var bunResp = $.ajax({
-        url: "http://bunker-yug.ru/seo_status.php",
-        data: "login=" + bunker.login + "&pass=" + bunker.pass + "&d=" + hostname,
-        async: false
-    }).responseText;
-    bunResp = JSON.parse(bunResp);
-    console.log(bunResp);
+    /*
+        var bunResp = $.ajax({
+            url: "http://bunker-yug.ru/seo_status.php",
+            data: "login=" + CMA.login + "&pass=" + CMA.pass + "&d=" + hostname,
+            async: false
+        }).responseText;
+    */
 
-    if (bunResp.result === 'err') {
-        console.log('CallManagersAssistant error, server answer - ' + bunResp);
-        CMA.BD[hostname] = {
-            thereInBunker: false
-        };
-    } else if (bunResp.code === '001') {
-        CMA.BD[hostname] = {
-            thereInBunker: false
-        };
-    } else if (bunResp.result === 'ok' && bunResp.code === '002') {
-        CMA.BD[hostname] = {
-            thereInBunker: true,
-            status: bunResp.status,
-            reportingDate: bunResp.date,
-            ajaxTime: (new Date()).getTime(),
-            notAlertClickTime: 0
-        }
-    } else {
-        CMA.BD[hostname].thereInBunker = false;
-    }
+    $.get(
+        "http://bunker-yug.ru/seo_status.php", {
+            login: CMA.login,
+            pass: CMA.pass,
+            d: hostname
+        },
+        function (bunResp) {
+            bunResp = JSON.parse(bunResp);
+            //console.log(bunResp);
 
-    checkNeedBannerOrNot(CMA.BD[hostname]);
-    chrome.storage.local.set({
-        'CallManagersAssistant': JSON.stringify(CMA)
-    });
+            if (bunResp.result === 'err') {
+                console.log(bunkerErrorHandler(bunResp.code));
+                console.log(bunResp);
+                return; //выход
+            } else if (bunResp.code === '001') {
+                CMA.BD[hostname] = {
+                    thereInBunker: false
+                };
+            } else if (bunResp.result === 'ok' && bunResp.code === '002') {
+                CMA.BD[hostname] = {
+                    thereInBunker: true,
+                    status: bunResp.status,
+                    reportingDate: bunResp.date,
+                    ajaxTime: (new Date()).getTime(),
+                    notAlertClickTime: 0
+                }
+            } else {
+                CMA.BD[hostname].thereInBunker = false;
+            }
 
+            checkNeedBannerOrNot(CMA.BD[hostname]);
+            chrome.storage.local.set({
+                'CallManagersAssistant': JSON.stringify(CMA)
+            });
+        });
 });
 
 
@@ -76,14 +85,14 @@ function checkNeedBannerOrNot(hostnameInfo) {
 function showBanner(infoFromBunker) {
     $(document).ready(function () {
         addBannerToTopPage(createMessage(infoFromBunker), detectedStatus(infoFromBunker.status));
-    });
 
-    $('#mk_close').click(function () { // ловим клик по крестику
-        $('#mkmessage').css('display', 'none');
-    });
+        $('#mk_close').click(function () { // ловим клик по крестику
+            $('#mkmessage').css('display', 'none');
+        });
 
-    $('#notAlertToday').click(function () {
-        saveAttr_notAlertClickTime();
+        $('#notAlertToday').click(function () {
+            saveAttr_notAlertClickTime();
+        });
     });
 
 }
@@ -130,4 +139,17 @@ function inputLoginAndPasswordBitch() {
             banner + ' "><p>' + message + '</p></div>'
         );
     });
+}
+
+function bunkerErrorHandler(errorCode) {
+    switch (errorCode) {
+        case '002':
+            return 'Ошибка баз данных бункера'
+        case '004':
+            return 'Не задан домен при заапросе к бд бункера'
+        case '005':
+            return 'Вы не уложилось во время работы бункера'
+        default:
+            return 'Неизвестная ошибка с кодом ' + errorCode
+    }
 }
