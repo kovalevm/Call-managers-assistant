@@ -1,4 +1,5 @@
-var hostname = window.location.hostname;
+var hostname = punycode.toUnicode(window.location.hostname);
+//console.log(hostname);
 var milisecInDay = (24 * 60 * 60 * 1000);
 var month = milisecInDay * 30;
 
@@ -134,7 +135,8 @@ function inputLoginAndPasswordBitch() {
     $(document).ready(function () {
         var banner = '<div id="mkmessage" style="background-color:';
         banner += 'rgb(255, 74, 74)';
-        var message = 'Логин или пароль введены неверно или не введены вообще. Введите их, нажав на иконку с красной телефонной трубкой справа от адресной строки.'
+        var message = 'Логин или пароль введены неверно или не введены вообще. Введите их, нажав на иконку с красной телефонной трубкой справа от адресной строки.';
+        //console.log('banner go!');
         $('body').prepend(
             banner + ' "><p>' + message + '</p></div>'
         );

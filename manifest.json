@@ -20,7 +20,7 @@
                        "https://bunker-yug.ru/*","https://www.bunker-yug.ru/*","http://bunker-yug.ru/*","http://www.bunker-yug.ru/*",
                        "https://vk.com/*","http://vk.com/*","https://facebook.com/*","http://facebook.com/*"],
       "css": ["css/mystyle.css"],
-      "js": ["notmyscripts/jquery.js", "myscript.js"]
+      "js": ["notmyscripts/jquery.js", "notmyscripts/punycode.js", "myscript.js"]
     }
   ],
   "permissions": [
