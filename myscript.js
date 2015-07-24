@@ -49,15 +49,23 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
                 console.log(bunkerErrorHandler(bunResp.code));
                 console.log(bunResp);
                 return; //выход
-            } else if (bunResp.code === '001') {
-                CMA.BD[hostname] = {
-                    thereInBunker: false
-                };
+//            } else if (bunResp.code === '001') {
+//                CMA.BD[hostname] = {
+//                    thereInBunker: false
+//                };
             } else if (bunResp.result === 'ok' && bunResp.code === '002') {
                 CMA.BD[hostname] = {
                     thereInBunker: true,
                     status: bunResp.status,
                     reportingDate: bunResp.date,
+                    ajaxTime: (new Date()).getTime(),
+                    notAlertClickTime: 0
+                }
+            } else if (bunResp.result_2 === 'ok' && bunResp.code_2 === '002') {
+                CMA.BD[hostname] = {
+                    thereInBunker: true,
+                    status: 'in_main',
+                    reportingDate: '',
                     ajaxTime: (new Date()).getTime(),
                     notAlertClickTime: 0
                 }
@@ -100,6 +108,9 @@ function showBanner(infoFromBunker) {
 
 
 function createMessage(infoFromBunker) {
+    if (infoFromBunker.status === 'in_main') {
+        return 'Есть в главных.';
+    }
     var status = detectedStatus(infoFromBunker.status);
     return 'Есть в базе. Статус продвижения - <ins>' + status + '</ins>, отчетная дата - ' + infoFromBunker.reportingDate + '.';
 }
@@ -142,6 +153,8 @@ function inputLoginAndPasswordBitch() {
         );
     });
 }
+
+
 
 function bunkerErrorHandler(errorCode) {
     switch (errorCode) {
