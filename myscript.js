@@ -18,6 +18,26 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
         return; //выход
     }
 
+
+    $.post(
+        "http://strikerdeveloper.myjino.ru/blackList.php", {
+            action: 'api',
+            hostname: hostname
+        },
+        function (resp) {
+            //resp = JSON.parse(resp);
+            console.log(resp);
+            if (resp.code === 0) console.log('Ошибка в бд черного листа');
+            if (resp.code === 2) {
+                $(document).ready(function () {
+                    $('body').prepend('<div id="mkmessage" style="background-color:rgb(255, 74, 74)"><span id="mk_close" >X</span><p>' + 'Этот сайт есть в ЧС!!' + '</p></div>');
+
+                    $('#mk_close').click(function () { // ловим клик по крестику
+                        $('#mkmessage').css('display', 'none');
+                    });
+                });
+            }
+        });
     //console.log(CMA);
 
     // Проверка есть ли инфа об этом сайте в памяти и не старше ли она месяца
@@ -35,6 +55,8 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
         }).responseText;
     */
 
+
+
     $.get(
         "http://bunker-yug.ru/seo_status.php", {
             login: CMA.login,
@@ -49,10 +71,10 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
                 console.log(bunkerErrorHandler(bunResp.code));
                 console.log(bunResp);
                 return; //выход
-//            } else if (bunResp.code === '001') {
-//                CMA.BD[hostname] = {
-//                    thereInBunker: false
-//                };
+                //            } else if (bunResp.code === '001') {
+                //                CMA.BD[hostname] = {
+                //                    thereInBunker: false
+                //                };
             } else if (bunResp.result === 'ok' && bunResp.code === '002') {
                 CMA.BD[hostname] = {
                     thereInBunker: true,
