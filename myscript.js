@@ -1,7 +1,12 @@
 var hostname = punycode.toUnicode(window.location.hostname);
+var hostnameBL = hostname;
+if (hostname.indexOf("www.") === 0)
+    hostnameBL = hostname.substr(4);
 //console.log(hostname);
 var milisecInDay = (24 * 60 * 60 * 1000);
 var month = milisecInDay * 30;
+console.log(hostname + ' ' + hostnameBL);
+
 
 chrome.storage.local.get('CallManagersAssistant', function (result) {
     var CMA = result['CallManagersAssistant'];
@@ -22,7 +27,7 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
     $.post(
         "http://strikerdeveloper.myjino.ru/blackList.php", {
             action: 'api',
-            hostname: hostname
+            hostname: hostnameBL
         },
         function (resp) {
             //resp = JSON.parse(resp);
@@ -30,11 +35,12 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
             if (resp.code === 0) console.log('Ошибка в бд черного листа');
             if (resp.code === 2) {
                 $(document).ready(function () {
-                    $('body').prepend('<div id="mkmessage" style="background-color:rgb(255, 74, 74)"><span id="mk_close" >X</span><p>' + 'Этот сайт есть в ЧС!!' + '</p></div>');
+                    $('body').prepend('<div id="mkmessage2" style="background-color:rgb(255, 2, 2)"><span id="mk_close2" >X</span><p>' + 'Этот сайт есть в ЧС!!' + '</p></div>');
 
-                    $('#mk_close').click(function () { // ловим клик по крестику
-                        $('#mkmessage').css('display', 'none');
+                    $('#mk_close2').click(function () { // ловим клик по крестику
+                        $('#mkmessage2').css('display', 'none');
                     });
+
                 });
             }
         });

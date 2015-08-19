@@ -4,13 +4,27 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 100500000000;
+    z-index: 100;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    opacity: .99;
+}
+
+#mkmessage2 {
+    width: 100%;
+    height: 70px;
+/*    background-color: rgb(255, 74, 74);*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 101;
     text-align: center;
     margin: 0px;
     padding: 0px;
 }
 
-#mk_close {
+#mk_close, #mk_close2 {
     width: 23px;
     height: 21px;
     position: absolute;
@@ -26,7 +40,7 @@
     text-indent: 0;
 }
 
-#mkmessage p {
+#mkmessage p, #mkmessage2 p {
     margin:5px 0;
     padding: 0;
     font-size: 24px;
