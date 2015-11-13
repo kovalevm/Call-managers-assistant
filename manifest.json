@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "Call manager`s assistant",
-    "version": "0.0.7",
+    "version": "1.0.0",
 
     "description": "Не знаешь, есть ли сайт у нас на продвижении? Я помогу узнать!",
     "icons": {
@@ -45,7 +45,7 @@
 "https://bunker-yug.ru/*","https://www.bunker-yug.ru/*","http://bunker-yug.ru/*","http://www.bunker-yug.ru/*",
 "https://vk.com/*","http://vk.com/*","https://facebook.com/*","http://facebook.com/*"],
       "css": ["css/mystyle.css"],
-      "js": ["notmyscripts/jquery.js", "notmyscripts/punycode.js", "myscript.js"]
+      "js": [ "app.js"]
     }
   ],
   "permissions": [

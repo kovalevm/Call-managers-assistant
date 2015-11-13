@@ -1,3 +1,5 @@
+"js": ["notmyscripts/jquery.js", "notmyscripts/punycode.js", "myscript.js"]
+
 var hostname = punycode.toUnicode(window.location.hostname);
 var hostnameBL = hostname;
 if (hostname.indexOf("www.") === 0)
@@ -25,7 +27,7 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
 
 
     $.post(
-        "http://strikerdeveloper.myjino.ru/blackList.php", {
+        "//strikerdeveloper.myjino.ru/blackList.php", {
             action: 'api',
             hostname: hostnameBL
         },
@@ -137,6 +139,7 @@ function showBanner(infoFromBunker) {
 
 function createMessage(infoFromBunker) {
     if (infoFromBunker.status === 'in_main') {
+        alert('[th');
         return 'Есть в главных.';
     }
     var status = detectedStatus(infoFromBunker.status);
