@@ -4,25 +4,14 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 100;
+    z-index: 99999999100;
     text-align: center;
     margin: 0px;
     padding: 0px;
     opacity: .99;
 }
 
-#mkmessage2 {
-    width: 100%;
-    height: 70px;
-/*    background-color: rgb(255, 74, 74);*/
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 101;
-    text-align: center;
-    margin: 0px;
-    padding: 0px;
-}
+
 
 #mk_close, #mk_close2 {
     width: 23px;
@@ -38,6 +27,7 @@
     margin: 0px;
     padding: 0px;
     text-indent: 0;
+    color: black;
 }
 
 #mkmessage p, #mkmessage2 p {
@@ -51,3 +41,38 @@
     text-shadow: 0 0px 0 #fff;
     position: initial;
 }
+
+.mk-back-red {
+    background-color: rgb(255, 74, 74);
+}
+
+.mk-back-green {
+    background-color: rgb(75, 240, 75);
+}
+
+.hideMK {
+    display: none;
+}
+
+#mkmessage #notAlertToday {
+  margin: 0 0 5px 0;
+  font-size: 15px;
+  text-decoration: underline;
+  cursor: pointer;
+  color: rgb(18, 22, 63);
+}
+
+/*
+#mkmessage2 {
+    width: 100%;
+    height: 70px;
+    background-color: rgb(255, 74, 74);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999999991001;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+}
+*/

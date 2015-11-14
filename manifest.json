@@ -12,43 +12,48 @@
         "128": "img/128x128.png"
     },
 
-"content_scripts": [
-    {
-      "matches": ["http://*/*", "https://*/*"],
-    "exclude_matches": ["https://mail.ru/*","https://www.mail.ru/*","http://mail.ru/*","http://www.mail.ru/*",
-"https://yandex.ru/*","https://www.yandex.ru/*","http://yandex.ru/*","http://www.yandex.ru/*",
-"https://rambler.ru/*","https://www.rambler.ru/*","http://rambler.ru/*","http://www.rambler.ru/*",
-"https://vkontakte.ru/*","https://www.vkontakte.ru/*","http://vkontakte.ru/*","http://www.vkontakte.ru/*",
-"https://google.ru/*","https://www.google.ru/*","http://google.ru/*","http://www.google.ru/*",
-"https://livejournal.com/*","https://www.livejournal.com/*","http://livejournal.com/*","http://www.livejournal.com/*",
-"https://liveinternet.ru/*","https://www.liveinternet.ru/*","http://liveinternet.ru/*","http://www.liveinternet.ru/*",
-"https://narod.ru/*","https://www.narod.ru/*","http://narod.ru/*","http://www.narod.ru/*",
-"https://google.com/*","https://www.google.com/*","http://google.com/*","http://www.google.com/*",
-"https://youtube.com/*","https://www.youtube.com/*","http://youtube.com/*","http://www.youtube.com/*",
-"https://rapidshare.com/*","https://www.rapidshare.com/*","http://rapidshare.com/*","http://www.rapidshare.com/*",
-"https://yahoo.com/*","https://www.yahoo.com/*","http://yahoo.com/*","http://www.yahoo.com/*",
-"https://odnoklassniki.ru/*","https://www.odnoklassniki.ru/*","http://odnoklassniki.ru/*","http://www.odnoklassniki.ru/*",
-"https://zaycev.net/*","https://www.zaycev.net/*","http://zaycev.net/*","http://www.zaycev.net/*",
-"https://auto.ru/*","https://www.auto.ru/*","http://auto.ru/*","http://www.auto.ru/*",
-"https://loveplanet.ru/*","https://www.loveplanet.ru/*","http://loveplanet.ru/*","http://www.loveplanet.ru/*",
-"https://spb.ru/*","https://www.spb.ru/*","http://spb.ru/*","http://www.spb.ru/*",
-"https://depositfiles.com/*","https://www.depositfiles.com/*","http://depositfiles.com/*","http://www.depositfiles.com/*",
-"https://megaupload.com/*","https://www.megaupload.com/*","http://megaupload.com/*","http://www.megaupload.com/*",
-"https://rbc.ru/*","https://www.rbc.ru/*","http://rbc.ru/*","http://www.rbc.ru/*",
-"https://nnm.ru/*","https://www.nnm.ru/*","http://nnm.ru/*","http://www.nnm.ru/*",
-"https://gmail.com/*","https://www.gmail.com/*","http://gmail.com/*","http://www.gmail.com/*",
-"https://mail.ru/*","https://www.mail.ru/*","http://mail.ru/*","http://www.mail.ru/*",
-"https://www.mail.com/*","https://www.www.mail.com/*","http://www.mail.com/*","http://www.www.mail.com/*",
-"https://mail.yandex.ru/*","https://www.mail.yandex.ru/*","http://mail.yandex.ru/*","http://www.mail.yandex.ru/*",
-"https://mail.yahoo.com/*","https://www.mail.yahoo.com/*","http://mail.yahoo.com/*","http://www.mail.yahoo.com/*",
-"https://live.com/*","https://www.live.com/*","http://live.com/*","http://www.live.com/*",
-"https://bunker-yug.ru/*","https://www.bunker-yug.ru/*","http://bunker-yug.ru/*","http://www.bunker-yug.ru/*",
-"https://vk.com/*","http://vk.com/*","https://facebook.com/*","http://facebook.com/*"],
-      "css": ["css/mystyle.css"],
-      "js": [ "app.js"]
+    "content_scripts": [
+        {
+            "matches": ["http://*/*", "https://*/*"],
+            "exclude_matches": ["https://mail.ru/*", "https://www.mail.ru/*", "http://mail.ru/*", "http://www.mail.ru/*",
+"https://yandex.ru/*", "https://www.yandex.ru/*", "http://yandex.ru/*", "http://www.yandex.ru/*",
+"https://rambler.ru/*", "https://www.rambler.ru/*", "http://rambler.ru/*", "http://www.rambler.ru/*",
+"https://vkontakte.ru/*", "https://www.vkontakte.ru/*", "http://vkontakte.ru/*", "http://www.vkontakte.ru/*",
+"https://google.ru/*", "https://www.google.ru/*", "http://google.ru/*", "http://www.google.ru/*",
+"https://livejournal.com/*", "https://www.livejournal.com/*", "http://livejournal.com/*", "http://www.livejournal.com/*",
+"https://liveinternet.ru/*", "https://www.liveinternet.ru/*", "http://liveinternet.ru/*", "http://www.liveinternet.ru/*",
+"https://narod.ru/*", "https://www.narod.ru/*", "http://narod.ru/*", "http://www.narod.ru/*",
+"https://google.com/*", "https://www.google.com/*", "http://google.com/*", "http://www.google.com/*",
+"https://youtube.com/*", "https://www.youtube.com/*", "http://youtube.com/*", "http://www.youtube.com/*",
+"https://rapidshare.com/*", "https://www.rapidshare.com/*", "http://rapidshare.com/*", "http://www.rapidshare.com/*",
+"https://yahoo.com/*", "https://www.yahoo.com/*", "http://yahoo.com/*", "http://www.yahoo.com/*",
+"https://odnoklassniki.ru/*", "https://www.odnoklassniki.ru/*", "http://odnoklassniki.ru/*", "http://www.odnoklassniki.ru/*",
+"https://zaycev.net/*", "https://www.zaycev.net/*", "http://zaycev.net/*", "http://www.zaycev.net/*",
+"https://auto.ru/*", "https://www.auto.ru/*", "http://auto.ru/*", "http://www.auto.ru/*",
+"https://loveplanet.ru/*", "https://www.loveplanet.ru/*", "http://loveplanet.ru/*", "http://www.loveplanet.ru/*",
+"https://spb.ru/*", "https://www.spb.ru/*", "http://spb.ru/*", "http://www.spb.ru/*",
+"https://depositfiles.com/*", "https://www.depositfiles.com/*", "http://depositfiles.com/*", "http://www.depositfiles.com/*",
+"https://megaupload.com/*", "https://www.megaupload.com/*", "http://megaupload.com/*", "http://www.megaupload.com/*",
+"https://rbc.ru/*", "https://www.rbc.ru/*", "http://rbc.ru/*", "http://www.rbc.ru/*",
+"https://nnm.ru/*", "https://www.nnm.ru/*", "http://nnm.ru/*", "http://www.nnm.ru/*",
+"https://gmail.com/*", "https://www.gmail.com/*", "http://gmail.com/*", "http://www.gmail.com/*",
+"https://mail.ru/*", "https://www.mail.ru/*", "http://mail.ru/*", "http://www.mail.ru/*",
+"https://www.mail.com/*", "https://www.www.mail.com/*", "http://www.mail.com/*", "http://www.www.mail.com/*",
+"https://mail.yandex.ru/*", "https://www.mail.yandex.ru/*", "http://mail.yandex.ru/*", "http://www.mail.yandex.ru/*",
+"https://mail.yahoo.com/*", "https://www.mail.yahoo.com/*", "http://mail.yahoo.com/*", "http://www.mail.yahoo.com/*",
+"https://live.com/*", "https://www.live.com/*", "http://live.com/*", "http://www.live.com/*",
+"https://bunker-yug.ru/*", "https://www.bunker-yug.ru/*", "http://bunker-yug.ru/*", "http://www.bunker-yug.ru/*",
+"https://vk.com/*", "http://vk.com/*", "https://facebook.com/*", "http://facebook.com/*"],
+            "css": ["css/mystyle.css"],
+            "js": [ "Ajax.js", "app.js"]
+            /*"js": ["notmyscripts/jquery.js", "notmyscripts/punycode.js", "myscript.js"]*/
     }
+
   ],
-  "permissions": [
+    "background": {
+        "scripts": ["Ajax.js", "background.js"]
+    },
+    "permissions": [
     "storage",
     "webRequest",
     "tabs",
@@ -60,4 +65,4 @@
         "default_icon": "img/48x48.png",
         "default_popup": "popup/popup.html"
     }
- }
+}

@@ -27,7 +27,7 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
 
 
     $.post(
-        "//strikerdeveloper.myjino.ru/blackList.php", {
+        "http://strikerdeveloper.myjino.ru/blackList.php", {
             action: 'api',
             hostname: hostnameBL
         },
