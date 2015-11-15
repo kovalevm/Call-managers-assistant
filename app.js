@@ -3,10 +3,12 @@ var App = function (login, pass) {
     this.login = login;
     this.pass = pass;
 
-    this.APIblackList = 'http://mihail.ves-yug.ru/black_list_sites/api';
-    this.ParamsblackList = 'hostname=' + this.hostname;
+    this.APIblackList = 'http://mihail.ves-yug.ru/public/black_list_sites/api/';
+    this.ParamsblackList =/* 'hostname=' +*/ this.hostname;
+//    this.BlackListAjax =
+//        new Ajax(this.APIblackList, 'POST', this.ParamsblackList);
     this.BlackListAjax =
-        new Ajax(this.APIblackList, 'POST', this.ParamsblackList);
+        new Ajax(this.APIblackList + this.ParamsblackList);
 
     this.APIBunker = 'http://bunker-yug.ru/seo_status.php?' +
         'login=' + this.login +
@@ -96,15 +98,18 @@ App.prototype.checkHostname = function (CMA) {
         this.chooseMessageAndShowBanner(CMA.BD[this.hostname]);
     }
 
-    if (location.protocol == 'https') return;
+    if (location.protocol == 'https:') return;
     if (!this.hostnameInStorage(CMA)) CMA.BD[this.hostname] = {};
 
     if (CMA.BD[this.hostname].thereInBlackList === undefined) {
         this.BlackListAjax.send(this, function (response) {
-            console.log('Началось BlackListAjax.send');
+            console.group('Началось BlackListAjax.send');
+            console.log(response);
             var resp = JSON.parse(response);
+
             if (resp.code === 0) {
                 console.log('Ошибка в бд черного листа');
+                console.groupEnd();
                 return;
             }
 
@@ -123,18 +128,20 @@ App.prototype.checkHostname = function (CMA) {
             chrome.storage.local.set({
                 'CallManagersAssistant': JSON.stringify(CMA)
             });
+            console.groupEnd();
             this.chooseMessageAndShowBanner(CMA.BD[this.hostname]);
 
         });
     }
     if (CMA.BD[this.hostname].thereInBunker === undefined) {
         this.BunkerAjax.send(this, function (response) {
-            console.log('Началось BunkerAjax.send');
+            console.group('Началось BunkerAjax.send');
             var bunResp = JSON.parse(response);
 
             if (bunResp.result === 'err') {
                 console.log('Ошибка АПИ бункера: ' + this.bunkerErrors[bunResp.code]);
                 console.log(bunResp);
+                console.groupEnd();
                 return;
             }
 
@@ -159,11 +166,12 @@ App.prototype.checkHostname = function (CMA) {
                 }
             }
 
-
+            //console.log(CMA);
             chrome.storage.local.set({
                 'CallManagersAssistant': JSON.stringify(CMA)
             });
             this.chooseMessageAndShowBanner(CMA.BD[this.hostname]);
+            console.groupEnd();
         });
     }
 }
@@ -212,7 +220,6 @@ App.prototype.addBannerToPage = function (text, notAlertTodayCheckbox, color) {
     })
 }
 
-
 chrome.storage.local.get('CallManagersAssistant', function (result) {
     var app = new App();
     var CMA = app.parseStorage(result['CallManagersAssistant']);
@@ -223,7 +230,6 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
     app.checkHostname(CMA);
 });
 
-
 function isEmptyObject(obj) {
     var name;
     for (name in obj) {
@@ -231,3 +237,4 @@ function isEmptyObject(obj) {
     }
     return true;
 }
+
