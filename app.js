@@ -3,7 +3,7 @@ var App = function (login, pass) {
     this.login = login;
     this.pass = pass;
 
-    this.APIblackList = 'http://mihail.ves-yug.ru/public/black_list_sites/api/';
+    this.APIblackList = 'http://mihail.ves-yug.ru/black_list_sites/api/';
     this.ParamsblackList =/* 'hostname=' +*/ this.hostname;
 //    this.BlackListAjax =
 //        new Ajax(this.APIblackList, 'POST', this.ParamsblackList);

@@ -44,7 +44,7 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
         //        'hostname=getallhttps'
         //    )
         var ajax = new Ajax(
-            'http://mihail.ves-yug.ru/public/black_list_sites/api/getallhttps');
+            'http://mihail.ves-yug.ru/black_list_sites/api/getallhttps');
 
         if (CMA.lastModifiedHTTPS === undefined)
             CMA.lastModifiedHTTPS = 0;
@@ -52,10 +52,11 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
         ajax.send(this, function (response) {
             var resp = JSON.parse(response);
             console.log(resp);
+console.log(CMA.lastModifiedHTTPS);
+            if (resp.lastModifiedHTTPS <= CMA.lastModifiedHTTPS) return;
+console.log(resp.actualHosts);
+            for (var i = 0, host = resp.actualHosts[i]; i< resp.actualHosts.length; i++, host = resp.actualHosts[i]) {
 
-            if (resp.lastModified <= CMA.lastModifiedHTTPS) return;
-
-            for (var host in resp.actualHosts) {
                 if (CMA.BD[host] !== undefined) continue
                 CMA.BD[host] = {
                     thereInBlackList: true,
@@ -64,12 +65,12 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
                 }
             }
 
-            for (var host in resp.deletedHosts) {
+            for (var i = 0, host = resp.deletedHosts[i]; i < resp.deletedHosts.length; i++, host = resp.deletedHosts[i]) {
                 if (CMA.BD[host] === undefined) continue;
                 delete CMA.BD[host];
             }
 
-            CMA.lastCheckRelevanceBD = now;
+            CMA.lastModifiedHTTPS = resp.lastModifiedHTTPS;
             chrome.storage.local.set({
                 'CallManagersAssistant': JSON.stringify(CMA)
             });
