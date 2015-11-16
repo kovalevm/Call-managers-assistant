@@ -79,13 +79,6 @@ console.log(resp.actualHosts);
 
 })
 
-function isEmptyObject(obj) {
-    var name;
-    for (name in obj) {
-        return false;
-    }
-    return true;
-}
 
 /*
 

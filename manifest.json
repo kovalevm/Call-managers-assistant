@@ -45,13 +45,13 @@
 "https://bunker-yug.ru/*", "https://www.bunker-yug.ru/*", "http://bunker-yug.ru/*", "http://www.bunker-yug.ru/*",
 "https://vk.com/*", "http://vk.com/*", "https://facebook.com/*", "http://facebook.com/*"],
             "css": ["css/mystyle.css"],
-            "js": [ "Ajax.js", "app.js"]
+            "js": [ "help_functions.js","classes/APIResponseHandler.js","classes/Ajax.js", "classes/App.js", "init.js"]
             /*"js": ["notmyscripts/jquery.js", "notmyscripts/punycode.js", "myscript.js"]*/
     }
 
   ],
     "background": {
-        "scripts": ["Ajax.js", "background.js"]
+        "scripts": ["help_functions.js", "classes/Ajax.js","background.js"]
     },
     "permissions": [
     "storage",

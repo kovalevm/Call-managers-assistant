@@ -1,5 +1,6 @@
 var App = function (login, pass) {
     this.hostname = window.location.hostname.replace('www.', '');
+//    alert(window.location.href);
     this.login = login;
     this.pass = pass;
 
@@ -27,6 +28,7 @@ var App = function (login, pass) {
         '002': 'Ошибка баз данных бункера',
         '004': 'Не задан домен при запросе к бд бункера',
         '005': 'Вы не уложилось во время работы бункера',
+        '006': 'Не правильный логин или пароль',
         default: 'Неизвестная ошибка'
     }
 }
@@ -44,7 +46,7 @@ App.prototype.chooseMessageAndShowBanner = function (host) {
     //если у него стоить галочка 'Не оповещать сегодня'
     if ((host.notAlertClickTime + (milisecInDay / 2)) > (new Date()).getTime())
         return; //выход
-    console.log('\tПрошли проверку на галку Не оповещать сегодня')
+    console.log('Прошли проверку на галку Не оповещать сегодня')
 
     //если сайт находиться в бункере
     if (host.thereInBunker) {
@@ -72,24 +74,27 @@ App.prototype.chooseMessageAndShowBanner = function (host) {
         return; //выход
     }
 }
+//
+//App.prototype.parseStorage = function (result) {
+//    if (isEmptyObject(result)) {
+//        result = new Object();
+//        result.BD = new Object();
+//    } else {
+//        result = JSON.parse(result);
+//    }
+//    return result;
+//}
 
-App.prototype.parseStorage = function (result) {
-    if (isEmptyObject(result)) {
-        result = new Object();
-        result.BD = new Object();
-    } else {
-        result = JSON.parse(result);
-    }
-    return result;
-}
 
-App.prototype.checkLoginAndPass = function (CMA) {
-    if (!!!CMA.logAndPassСorrectly || CMA.logAndPassСorrectly === false) {
-        this.addBannerToPage(this.messages['incorrectLogin'], false);
-        return false;
-    }
-    return true;
-}
+//App.prototype.checkLoginAndPass = function (CMA) {
+//    if (!!!CMA.logAndPassСorrectly || CMA.logAndPassСorrectly === false) {
+//        this.addBannerToPage(this.messages['incorrectLogin'], false);
+//        return false;
+//    }
+//    this.login = CMA.login;
+//    this.pass = CMA.pass;
+//    return true;
+//}
 
 App.prototype.checkHostname = function (CMA) {
 
@@ -103,75 +108,31 @@ App.prototype.checkHostname = function (CMA) {
 
     if (CMA.BD[this.hostname].thereInBlackList === undefined) {
         this.BlackListAjax.send(this, function (response) {
-            console.group('Началось BlackListAjax.send');
-            console.log(response);
-            var resp = JSON.parse(response);
 
-            if (resp.code === 0) {
-                console.log('Ошибка в бд черного листа');
-                console.groupEnd();
-                return;
-            }
-
-            CMA.BD[this.hostname].ajaxTime = (new Date()).getTime();
-            CMA.BD[this.hostname].notAlertClickTime = 0;
-
-
-            if (resp.code === 2) {
-                CMA.BD[this.hostname].thereInBlackList = true;
-            } else {
-                CMA.BD[this.hostname].thereInBlackList = false;
-                //BLcomment: bunResp.status,
-            }
-
+            var handler = new APIResponseHandler();
+            CMA.BD[this.hostname] =
+                handler.responseHandler('blacklist', response, CMA.BD[this.hostname]);
 
             chrome.storage.local.set({
                 'CallManagersAssistant': JSON.stringify(CMA)
             });
-            console.groupEnd();
             this.chooseMessageAndShowBanner(CMA.BD[this.hostname]);
 
         });
     }
+
     if (CMA.BD[this.hostname].thereInBunker === undefined) {
         this.BunkerAjax.send(this, function (response) {
-            console.group('Началось BunkerAjax.send');
-            var bunResp = JSON.parse(response);
 
-            if (bunResp.result === 'err') {
-                console.log('Ошибка АПИ бункера: ' + this.bunkerErrors[bunResp.code]);
-                console.log(bunResp);
-                console.groupEnd();
-                return;
-            }
+            var handler = new APIResponseHandler();
+            CMA.BD[this.hostname] =
+                handler.responseHandler('bunker', response, CMA.BD[this.hostname]);
 
-            if (bunResp.result === 'ok' || bunResp.result_2 === 'ok') {
-
-                CMA.BD[this.hostname].ajaxTime = (new Date()).getTime();
-                CMA.BD[this.hostname].notAlertClickTime = 0;
-
-                if (bunResp.code === '002') {
-
-                    CMA.BD[this.hostname].thereInBunker = true;
-                    CMA.BD[this.hostname].status = bunResp.status;
-                    CMA.BD[this.hostname].reportingDate = bunResp.date;
-
-                } else if (bunResp.code_2 === '002') {
-                    CMA.BD[this.hostname].thereInBunker = true;
-                    CMA.BD[this.hostname].status = 'in_main';
-                    CMA.BD[this.hostname].reportingDate = '';
-
-                } else {
-                    CMA.BD[this.hostname].thereInBunker = false;
-                }
-            }
-
-            //console.log(CMA);
             chrome.storage.local.set({
                 'CallManagersAssistant': JSON.stringify(CMA)
             });
             this.chooseMessageAndShowBanner(CMA.BD[this.hostname]);
-            console.groupEnd();
+
         });
     }
 }
@@ -220,15 +181,7 @@ App.prototype.addBannerToPage = function (text, notAlertTodayCheckbox, color) {
     })
 }
 
-chrome.storage.local.get('CallManagersAssistant', function (result) {
-    var app = new App();
-    var CMA = app.parseStorage(result['CallManagersAssistant']);
-    console.log(CMA);
 
-    if (! app.checkLoginAndPass(CMA) ) return;
-
-    app.checkHostname(CMA);
-});
 
 function isEmptyObject(obj) {
     var name;
