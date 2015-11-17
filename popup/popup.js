@@ -1,6 +1,12 @@
-$('#cleanBD').click(function () {
+document.getElementById('cleanBD').addEventListener('click', function(el) {
     chrome.storage.local.remove('CallManagersAssistant', function () {});
-});
+})
+
+//document.getElementById('cleanBD').addEventListener('click', function(el) {
+//    chrome.storage.local.get('CallManagersAssistant', function (result) {
+//        var CallManagersAssistant = result['CallManagersAssistant'];
+//    })
+//})
 
 $(document).ready(function () {
     chrome.storage.local.get('CallManagersAssistant', function (result) {

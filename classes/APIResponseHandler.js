@@ -1,12 +1,7 @@
 /*jslint sloppy: true*/
 
 var APIResponseHandler = function () {
-    this.bunkerErrors = {
-        '002': 'Ошибка баз данных бункера',
-        '004': 'Не задан домен при запросе к бд бункера',
-        '005': 'Вы не уложилось во время работы бункера',
-        '006': 'Не правильный логин или пароль',
-    };
+
 };
 
 
@@ -20,7 +15,7 @@ var APIResponseHandler = function () {
  */
 
 APIResponseHandler.prototype.responseHandler = function (server, response, host) {
-    logG('APIResponseHandler.bunkerResponseHandler(server, response, host) started');
+    logG('APIResponseHandler.responseHandler(server, response, host) started');
     log('server - ' + server);
     log('response - ' + response);
     log('Input host :');
@@ -40,7 +35,7 @@ APIResponseHandler.prototype.responseHandler = function (server, response, host)
     if (server === 'bunker') {
 
         if (r.result === 'err') {
-            log('Ошибка АПИ бункера: ' + this.bunkerErrors[r.code]);
+            log('Ошибка АПИ бункера: ' + config.bunkerApiErrors[r.code]);
         } else if (r.result === 'ok' || r.result_2 === 'ok') {
 
             host.ajaxTime = (new Date()).getTime();
@@ -64,7 +59,7 @@ APIResponseHandler.prototype.responseHandler = function (server, response, host)
 
     } else if (server === 'blacklist') {
 
-        if (resp.code === 0) {
+        if (r.code === 0) {
             log('Ошибка в бд черного листа');
         } else {
 
@@ -72,7 +67,7 @@ APIResponseHandler.prototype.responseHandler = function (server, response, host)
             host.notAlertClickTime = 0;
         }
 
-        if (resp.code === 2) {
+        if (r.code === 2) {
             host.thereInBlackList = true;
         } else {
             host.thereInBlackList = false;

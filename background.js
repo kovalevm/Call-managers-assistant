@@ -1,10 +1,19 @@
 chrome.storage.local.get('CallManagersAssistant', function (result) {
+
+    var config = new Config();
+
     var CMA = result['CallManagersAssistant'];
-    CMA = JSON.parse(CMA);
+    if (isEmptyObject(CMA)) {
+        CMA firstStart();
+    } else {
+        CMA = JSON.parse(CMA);
+    }
 
     //проверяем есть ли такой объект и последняя проверка не моложе недели
-    console.assert(CMA !== undefined, 'CMA undefined');
-    if (CMA === undefined) return;
+    //    console.assert(CMA !== undefined, 'CMA undefined');
+    //    console.assert(CMA.BD !== undefined, 'CMA.BD undefined');
+    //    console.assert(!isEmptyObject(CMA.BD), 'CMA.BD isEmpty');
+    //    if (CMA === undefined) return;
 
     var now = (new Date()).getTime();
 
@@ -16,11 +25,10 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
 
         if (CMA.lastCheckRelevanceBD === undefined) CMA.lastCheckRelevanceBD = 0;
 
-        console.assert(CMA.BD !== undefined, 'CMA.BD undefined');
-        console.assert(!isEmptyObject(CMA.BD), 'CMA.BD isEmpty', CMA.BD);
+
         if (CMA.BD === undefined || isEmptyObject(CMA.BD) || (CMA.lastCheckRelevanceBD + week) > now)
             return;
-        console.log(CMA)
+        log(CMA)
             //Перебираем хосты, если ajaxTime больше месяца, то удаляем их из BD
         for (var host in CMA.BD) {
             if ((CMA.BD[host].ajaxTime + (week * 4)) < now) {
@@ -51,11 +59,11 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
 
         ajax.send(this, function (response) {
             var resp = JSON.parse(response);
-            console.log(resp);
-console.log(CMA.lastModifiedHTTPS);
+            log(resp);
+            log(CMA.lastModifiedHTTPS);
             if (resp.lastModifiedHTTPS <= CMA.lastModifiedHTTPS) return;
-console.log(resp.actualHosts);
-            for (var i = 0, host = resp.actualHosts[i]; i< resp.actualHosts.length; i++, host = resp.actualHosts[i]) {
+            log(resp.actualHosts);
+            for (var i = 0, host = resp.actualHosts[i]; i < resp.actualHosts.length; i++, host = resp.actualHosts[i]) {
 
                 if (CMA.BD[host] !== undefined) continue
                 CMA.BD[host] = {
@@ -75,6 +83,18 @@ console.log(resp.actualHosts);
                 'CallManagersAssistant': JSON.stringify(CMA)
             });
         })
+    }
+
+    function firstStart() {
+        var CMA = {
+            lastCheckRelevanceBD: 0,
+            lastModifiedHTTPS: 0,
+            logAndPassСorrectly: null,
+            login: "",
+            pass: ""
+        }
+        CMA.BD = {}
+        return CMA;
     }
 
 })
@@ -110,8 +130,8 @@ console.log(resp.actualHosts);
 
 
     for (var host in CMA.BD) {
-        console.log(host);
+        log(host);
     }
-console.log('');
+log('');
 
 */

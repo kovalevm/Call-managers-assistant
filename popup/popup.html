@@ -1,37 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Call manager`s assistant</title>
     <script src="../notmyscripts/jquery.js"></script>
-   <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="popup.css">
 
 </head>
+
 <body>
-<table class="bunker-form">
-    <tr><th colspan="2">Введите логин и пароль от бункера:</th></tr>
-    <tr>
-        <td><span>Логин:</span></td>
-        <td> <input id="bunkerLogin" type="text"></td>
-    </tr>
-    <tr>
-        <td><span>Пароль:</span></td>
-        <td><input id="bunkerPassword" type="password"></td>
-    </tr>
-    <tr>
-        <td colspan="2"><button id="bunkerBtn">Сохранить и подключиться</button>
-        </td>
-    </tr>
-</table>
-<p class="bunker-message"></p>
-<!--    <button>Очистить историю</button>-->
-      <blockquote>
-   <p>Ничто не производит на клиента большего впечатления, чем осознание того факта, что вы потратили на него свое время и усилия, чтобы собрать информацию о его ситуации и способах решения его проблем.
-</p>
-   <p>Брайан Трейси</p>
-  </blockquote>
-  <button id="cleanBD">Очистить историю</button>
-  <a style="float:right" target="_blank" href="http://strikerdeveloper.myjino.ru/blackList.php">Черный список</a>
-  <script src="popup.js"></script>
+    <table class="bunker-form">
+        <tr>
+            <th colspan="2">Введите логин и пароль от бункера:</th>
+        </tr>
+        <tr>
+            <td><span>Логин:</span></td>
+            <td>
+                <input id="bunkerLogin" type="text">
+            </td>
+        </tr>
+        <tr>
+            <td><span>Пароль:</span></td>
+            <td>
+                <input id="bunkerPassword" type="password">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button id="bunkerBtn">Сохранить и подключиться</button>
+            </td>
+        </tr>
+    </table>
+    <p class="bunker-message"></p>
+    <!--    <button>Очистить историю</button>-->
+    <blockquote>
+        <p>Ничто не производит на клиента большего впечатления, чем осознание того факта, что вы потратили на него свое время и усилия, чтобы собрать информацию о его ситуации и способах решения его проблем.
+        </p>
+        <p>Брайан Трейси</p>
+    </blockquote>
+    <button id="cleanBD">Очистить историю</button>
+    <a style="float:right" target="_blank" href="http://strikerdeveloper.myjino.ru/blackList.php">Черный список</a>
+
+
+<!--
+    <div class="dashboard">
+        <p>
+            <button id="cleanBD">Очистить историю</button>
+        </p>
+
+        <p>
+            <input type="checkbox" id="debug" value="CheckBox">
+            <label for="debug">Дебаг режим</label>
+        </p>
+
+    </div>
+-->
+
+    <script src="popup.js"></script>
 </body>
+
 </html>
