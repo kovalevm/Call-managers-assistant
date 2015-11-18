@@ -115,7 +115,13 @@ App.prototype.checkHostname = function (CMA) {
 App.prototype.addBannerToPage = function (text, notAlertTodayCheckbox, color) {
     log('Началось addBannerToPage c текстом:' + text);
     //Проверяем есть ли сейчас уже баннер
-    if (document.getElementById('mkmessage')) return;
+    if (document.getElementById('mkmessage')) {
+        if (text === this.config.bannerMessages['inBlackList']) {
+            document.getElementById('mkmessage').remove();
+        } else {
+            return;
+        }
+    }
 
     if (notAlertTodayCheckbox === undefined)
         notAlertTodayCheckbox = true;
