@@ -4,7 +4,7 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
 
     var CMA = result['CallManagersAssistant'];
     if (isEmptyObject(CMA)) {
-        CMA firstStart();
+         firstStart(CMA);
     } else {
         CMA = JSON.parse(CMA);
     }

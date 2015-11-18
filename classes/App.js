@@ -29,7 +29,7 @@ App.prototype.chooseMessageAndShowBanner = function (host) {
     //если у него стоить галочка 'Не оповещать сегодня'
     if ((host.notAlertClickTime + (milisecInDay / 2)) > (new Date()).getTime()) {
         log('Стоит галочка "Не оповещать сегодня". Прерываем скрипт.')
-        return; //выход
+        return false; //выход
     }
 
 
@@ -37,7 +37,7 @@ App.prototype.chooseMessageAndShowBanner = function (host) {
     if (host.thereInBlackList) {
         log('Есть такой сайт в ЧС');
         this.addBannerToPage(this.config.bannerMessages['inBlackList']);
-        return; //выход
+        return true; //выход
     }
 
     //если сайт находиться в бункере
@@ -46,7 +46,7 @@ App.prototype.chooseMessageAndShowBanner = function (host) {
         //если в главных
         if (host.status === 'in_main') {
             this.addBannerToPage(this.config.bannerMessages['inMain']);
-            return; //выход
+            return true; //выход
         }
 
         //если сайт находиться в основной базе
@@ -56,7 +56,7 @@ App.prototype.chooseMessageAndShowBanner = function (host) {
             .replace('%repDate%', host.reportingDate);
         var color = status === 'не продвигается' ? 'green' : 'red';
         this.addBannerToPage(message, true, color);
-        return; //выход
+        return true; //выход
     }
 
 }
@@ -64,8 +64,18 @@ App.prototype.chooseMessageAndShowBanner = function (host) {
 App.prototype.checkHostname = function (CMA) {
 
     //если есть такой сайт в CMA
-    if (this.hostnameInStorage(CMA) && (CMA.BD[this.hostname].thereInBlackList !== undefined || CMA.BD[this.hostname].thereInBunker !== undefined)) {
-        this.chooseMessageAndShowBanner(CMA.BD[this.hostname]);
+    if (
+        this.hostnameInStorage(CMA)
+        && (
+            CMA.BD[this.hostname].thereInBlackList !== undefined
+            || CMA.BD[this.hostname].thereInBunker !== undefined
+            || CMA.BD[this.hostname].notAlertClickTime > 0
+            )
+       ) {
+        if (! this.chooseMessageAndShowBanner(CMA.BD[this.hostname]) )
+            {
+                return; //выход
+            }
     }
 
     if (location.protocol == 'https:') return;
@@ -137,6 +147,7 @@ App.prototype.addBannerToPage = function (text, notAlertTodayCheckbox, color) {
                 var CMA = result['CallManagersAssistant'];
                 CMA = JSON.parse(CMA);
                 //log(CMA.BD);
+                if ( isEmptyObject(CMA.BD[hostname]) ) CMA.BD[hostname] = {};
                 CMA.BD[hostname].notAlertClickTime = today.getTime();
                 log(CMA);
                 chrome.storage.local.set({

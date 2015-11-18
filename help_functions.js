@@ -1,6 +1,6 @@
 /*jslint sloppy: true*/
 
-var debug = true;
+var debug = false;
 var log, logG, logGE, logT, logTE;
 var a = function (a) {};
 
