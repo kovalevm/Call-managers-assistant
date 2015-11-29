@@ -1,8 +1,11 @@
+/*jshint bitwise: true, curly: true, globals: true, forin: true, nonew: true, undef: true, unused: true, strict: true, latedef: true, browser: true, devel: true, browserify: true, maxdepth: 3, maxlen: 80, indent: 4*/
+
 chrome.storage.local.get('CallManagersAssistant', function (result) {
+    "use strict";
 
     var config = new Config();
 
-    var CMA = result['CallManagersAssistant'];
+    var CMA = result.CallManagersAssistant;
     if (isEmptyObject(CMA)) {
          firstStart(CMA);
     } else {
@@ -23,12 +26,13 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
     function сheckRelevanceBD() {
         var week = (24 * 60 * 60 * 1000) * 7;
 
-        if (CMA.lastCheckRelevanceBD === undefined) CMA.lastCheckRelevanceBD = 0;
+        CMA.lastCheckRelevanceBD = CMA.lastCheckRelevanceBD || 0;
+        }
 
 
         if (CMA.BD === undefined || isEmptyObject(CMA.BD) || (CMA.lastCheckRelevanceBD + week) > now)
             return;
-        log(CMA)
+        log(CMA);
             //Перебираем хосты, если ajaxTime больше месяца, то удаляем их из BD
         for (var host in CMA.BD) {
             if ((CMA.BD[host].ajaxTime + (week * 4)) < now) {
@@ -40,7 +44,7 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
         chrome.storage.local.set({
             'CallManagersAssistant': JSON.stringify(CMA)
         });
-    }
+    };
 
 
 
@@ -65,12 +69,12 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
             log(resp.actualHosts);
             for (var i = 0, host = resp.actualHosts[i]; i < resp.actualHosts.length; i++, host = resp.actualHosts[i]) {
 
-                if (CMA.BD[host] !== undefined) continue
+                if (CMA.BD[host] !== undefined) continue;
                 CMA.BD[host] = {
                     thereInBlackList: true,
                     ajaxTime: now,
                     notAlertClickTime: 0
-                }
+                };
             }
 
             for (var i = 0, host = resp.deletedHosts[i]; i < resp.deletedHosts.length; i++, host = resp.deletedHosts[i]) {
@@ -82,7 +86,7 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
             chrome.storage.local.set({
                 'CallManagersAssistant': JSON.stringify(CMA)
             });
-        })
+        });
     }
 
     function firstStart() {
@@ -92,12 +96,12 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
             logAndPassСorrectly: null,
             login: "",
             pass: ""
-        }
-        CMA.BD = {}
+        };
+        CMA.BD = {};
         return CMA;
     }
 
-})
+});
 
 
 /*
