@@ -11,7 +11,7 @@ var App = function (login, pass) {
     this.ParamsBunker =
         'login=' + this.login +
         '&pass=' + this.pass +
-        '&d=' + this.hostname;
+        '&d=' + punycode.toUnicode(this.hostname);
     this.BunkerAjax = new Ajax(this.config.APIBunker + this.ParamsBunker);
 
 }

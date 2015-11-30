@@ -27,7 +27,7 @@ chrome.storage.local.get('CallManagersAssistant', function (result) {
         var week = (24 * 60 * 60 * 1000) * 7;
 
         CMA.lastCheckRelevanceBD = CMA.lastCheckRelevanceBD || 0;
-        }
+
 
 
         if (CMA.BD === undefined || isEmptyObject(CMA.BD) || (CMA.lastCheckRelevanceBD + week) > now)
