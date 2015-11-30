@@ -59,10 +59,10 @@
   ],
     "background": {
         "scripts": [
-            "help_functions.js",
+            "help_functions.js"/*,
             "Config.js",
             "classes/Ajax.js",
-            "background.js"
+            "background.js"*/
         ]
     },
     "permissions": [

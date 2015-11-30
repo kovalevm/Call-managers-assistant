@@ -10,60 +10,61 @@ var CallManagersAssistant = function CallManagersAssistant() {
     this.pass =  '';
 };
 
+
+CallManagersAssistant.prototype.haveBannerNow =
+    function haveBannerNow () {
+
+    return document.getElementById('mkmessage') ? true : false;
+};
+
+
 CallManagersAssistant.prototype.addBannerToPage =
-    function addBannerToPage (text, notAlertTodayCheckbox, color) {
+    function addBannerToPage (banner) {
 
-    log('Началось addBannerToPage c текстом:' + text);
-    //Проверяем есть ли сейчас уже баннер
-    if (document.getElementById('mkmessage')) {
-        if (text === this.config.bannerMessages['inBlackList']) {
-            document.getElementById('mkmessage').remove();
-        } else {
-            return;
-        }
-    }
+    banner.notAlertTodayCheckbox =
+        banner.notAlertTodayCheckbox || true;
 
-    if (notAlertTodayCheckbox === undefined)
-        notAlertTodayCheckbox = true;
+    banner.color = banner.color || 'red';
 
     var div = document.createElement('div');
-    div.setAttribute("id", "mkmessage");
-    if (color === 'green')
-        div.className = "mk-back-green";
-    else
-        div.className = "mk-back-red";
+    div.setAttribute('id', 'mkmessage');
+    div.className = 'mk-back-' + banner.color;
+
     div.innerHTML =
-        '<span id="mk_close" >X</span>\
-        <p>' + text + '</p>';
-    if (notAlertTodayCheckbox)
-        div.innerHTML += '<p id="notAlertToday">Не оповещать меня сегодня об этом</p>';
+        '<span id="mk_close" >X</span>' +
+        '<p>' + banner.text + '</p>';
+
+    div.innerHTML += banner.notAlertTodayCheckbox ?
+        '<p id="notAlertToday">Не оповещать меня сегодня об этом</p>' : '' ;
 
     document.body.insertBefore(div, document.body.firstChild);
+};
 
 
-    document.getElementById('mk_close').addEventListener('click', function (el) {
+CallManagersAssistant.prototype.scriptsForBanner =
+    function scriptsForBanner(chromeStorageName) {
+
+    var hideBanner = function hideBanner () {
         document.getElementById('mkmessage').setAttribute('class', 'hideMK');
-    })
+    };
 
-    if (notAlertTodayCheckbox) {
-        document.getElementById('notAlertToday').addEventListener('click', function (el) {
-            var hostname = window.location.hostname.replace('www.', '');
-            var today = new Date();
-            chrome.storage.local.get('CallManagersAssistant', function (result) {
-                var CMA = result['CallManagersAssistant'];
-                CMA = JSON.parse(CMA);
-                //log(CMA.BD);
-                if ( isEmptyObject(CMA.BD[hostname]) ) CMA.BD[hostname] = {};
-                CMA.BD[hostname].notAlertClickTime = today.getTime();
-                log(CMA);
-                chrome.storage.local.set({
-                    'CallManagersAssistant': JSON.stringify(CMA)
-                });
-            });
-            document.getElementById('mkmessage').setAttribute('class', 'hideMK');
-        })
-    }
-}
+    document.getElementById('mk_close').addEventListener('click', hideBanner);
+
+
+    document.getElementById('notAlertToday')
+        .addEventListener('click', function () {
+
+        var hostname = window.location.hostname.replace('www.', '');
+        var today = new Date();
+
+        getStorage(chromeStorageName, function(storage) {
+            storage.BD[hostname].notAlertClickTime = today.getTime();
+            return storage;
+        });
+
+        hideBanner();
+    });
+};
 
 
 CallManagersAssistant.prototype.init = function init(obj) {
@@ -81,6 +82,7 @@ CallManagersAssistant.prototype.init = function init(obj) {
         this.logAndPassСorrectly = obj.logAndPassСorrectly;
 };
 
+
 /**
  * Проверяем, существует ли hostname в базе
  * @param   {string} hostname
@@ -88,6 +90,7 @@ CallManagersAssistant.prototype.init = function init(obj) {
  */
 CallManagersAssistant.prototype.hasHostname =
     function hasHostname(hostname) {
+
      return this.BD[hostname] ? true : false;
 };
 
