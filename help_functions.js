@@ -23,11 +23,11 @@ if (debug) {
 }
 
 
-getStorage('CallManagersAssistant', function(storage) {
-    log('rand!');
-    storage.lastCheckRelevanceBD = Math.random();
-    //return storage;
-})
+//getStorage('CallManagersAssistant', function(storage) {
+//    log('rand!');
+//    storage.lastCheckRelevanceBD = Math.random();
+//    //return storage;
+//})
 
 
 function isEmptyObject(obj) {

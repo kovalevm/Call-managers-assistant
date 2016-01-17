@@ -48,11 +48,13 @@
             "js": [
                 "notmyscripts/punycode.js",
                 "help_functions.js",
-                "Config.js",
+                /*"Config.js",*/
                 "classes/APIResponseHandler.js",
                 "classes/Ajax.js",
-                "classes/App.js",
-                "init.js"
+                /*"classes/App.js",*/
+                "classes/CallManagerAssistant.js",
+                /*"init.js"*/
+                "mian.js"
             ]
     }
 

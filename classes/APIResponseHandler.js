@@ -10,23 +10,21 @@ var APIResponseHandler = function () {
  * и возвращает результат в объекте
  * @param   {String} server   имя сервера откуда пришел response (bunker или blacklist)
  * @param   {String} response ответ сервера
- * @param   {Object}   host     объект в который сохраняются результаты обрабтки response
  * @returns {Object} host
  */
 
-APIResponseHandler.prototype.responseHandler = function (server, response, host) {
-    logG('APIResponseHandler.responseHandler(server, response, host) started');
+APIResponseHandler.prototype.responseHandler = function (server, response) {
+    logG('APIResponseHandler.responseHandler(server, response) started');
     log('server - ' + server);
     log('response - ' + response);
-    log('Input host :');
-    log(host);
 
-
+    var host = {};
+    var r = {};
     //Валидируем пришедшие данные
     console.assert(in_array(server, ['bunker', 'blacklist']));
     console.assert(typeof host == 'object', 'host не является объектом');
     try {
-        var r = JSON.parse(response);
+        r = JSON.parse(response);
     } catch (e) {
         throw ('Ошибка! Невозможно отпарсить в json ответ сервера = ' + response);
     }
@@ -90,3 +88,4 @@ APIResponseHandler.prototype.responseHandler = function (server, response, host)
 //var e = {};
 //apiResp.responseHandler('{"result":"ok","code":"001","result_2":"ok","code_2":"002"}', e);
 //apiResp.responseHandler('dfhdsjfhkjshfjsjfkl', e);
+ //* @param   {Object}   host     объект в который сохраняются результаты обрабтки response

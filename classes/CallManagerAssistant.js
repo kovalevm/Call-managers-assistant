@@ -10,6 +10,35 @@ var CallManagersAssistant = function CallManagersAssistant() {
     this.pass =  '';
 };
 
+CallManagersAssistant.prototype.chooseBanner =
+    function chooseBanner (host, banners) {
+
+        //если есть такой сайт в черном листе
+        if (host.thereInBlackList) {
+            return new Banner(banners.inBlackList);
+        }
+
+        //если сайт находиться в бункере
+        if (host.thereInBunker) {
+            //если в главных
+            if (host.status === 'in_main') {
+               return new Banner(banners.inMain);
+            }
+
+            //если сайт находиться в основной базе
+            var inCustomerBanner = new Banner(banners.inCustomer);
+            var status = host.status == '4' ?
+                'не продвигается' : 'продвигается';
+            inCustomerBanner.text = inCustomerBanner.text
+                .replace('%status%', status)
+                .replace('%repDate%', host.reportingDate);
+            inCustomerBanner.color = status === 'не продвигается' ?
+                'green' : 'red';
+            return inCustomerBanner;
+
+        }
+    return false;
+};
 
 CallManagersAssistant.prototype.haveBannerNow =
     function haveBannerNow () {
@@ -85,12 +114,13 @@ CallManagersAssistant.prototype.init = function init(obj) {
 
 /**
  * Проверяем, существует ли hostname в базе
+ * и если он существует, то возвращаем его
  * @param   {string} hostname
- * @returns {boolean}
+ * @returns {boolean|obj}
  */
 CallManagersAssistant.prototype.hasHostname =
     function hasHostname(hostname) {
 
-     return this.BD[hostname] ? true : false;
+     return this.BD[hostname] ? this.BD[hostname] : false;
 };
 
