@@ -8,14 +8,17 @@ var APIblackList = 'http://mihail.ves-yug.ru/black_list_sites/api/',
     ignoreHostnames = ['yandex.ru'],
     banners = {
         incorrectLogin : {
-            text : 'Логин или пароль введены неверно или не введены вообще. Введите их, нажав на иконку с красной телефонной трубкой справа от адресной строки.',
+            text : 'Логин или пароль введены неверно или не введены вообще. ' +
+            'Введите их, нажав на иконку с красной телефонной трубкой ' +
+            'справа от адресной строки.',
             notAlertTodayCheckbox : false
         },
         inMain : {
             text : 'Есть упоминание об этом сайте в главных!'
         },
         inCustomer : {
-            text : 'Есть в базе. Статус продвижения - <ins>%status%</ins>, отчетная дата - %repDate%.'
+            text : 'Есть в базе. Статус продвижения - '+
+            '<ins>%status%</ins>, отчетная дата - %repDate%.'
         },
         inBlackList : {
             text : 'Этот сайт есть в ЧС!!',
@@ -33,8 +36,7 @@ var APIblackList = 'http://mihail.ves-yug.ru/black_list_sites/api/',
 
 //Хостнейм есть в списке игнорируемых?
 if (in_array(window.location.hostname.replace('www.', ''), ignoreHostnames)) {
-    log('Этот домен в списке игнорируемых. Прерываем скрипт.');
-    return;
+    throw new Error('Этот домен в списке игнорируемых. Прерываем скрипт.');
 }
 
 //Берем в памяти chromeStorageName
@@ -42,10 +44,13 @@ getStorage(chromeStorageName, function(storage) {
 
     var CMA = new CallManagersAssistant();
     CMA.init(storage);
+    log('CallManagersAssistant:');
+    log(CMA);
 
     //Проверяем авторизацию пользователя
     if (!!!CMA.logAndPassСorrectly || !CMA.logAndPassСorrectly) {
         var incorrectLoginBanner = new Banner(banners.incorrectLogin);
+        incorrectLoginBanner.notAlertTodayCheckbox = false;
         CMA.addBannerToPage(incorrectLoginBanner);
         log('Ошибка с логином и паролем. Прерываем скрипт.');
         return;
@@ -68,12 +73,8 @@ getStorage(chromeStorageName, function(storage) {
 
     if (!hostnameObj) hostnameObj = {};
 
-    //Если отмечено "не оповещать меня сегодня"
-    //и это было не позже чем, 12 часов назад, то выход
-    if (
-        (hostnameObj.notAlertClickTime + (milisecInDay / 2)) >
-        (new Date()).getTime()
-    ) {
+    //Если отмечено "не оповещать меня сегодня" - выход.
+    if (hostnameObj.notAlertClickTime) {
         log('Отмечено "Не оповещать сегодня". Прерываем скрипт.');
         return;
     }
@@ -82,7 +83,7 @@ getStorage(chromeStorageName, function(storage) {
 
         var banner = CMA.chooseBanner(host, banners);
         if (!banner) {
-            log('Не вешаем никакой баннер. Прерываем скрипт.')
+            log('Не вешаем никакой баннер. Прерываем скрипт.');
             return;
         }
 
@@ -91,17 +92,26 @@ getStorage(chromeStorageName, function(storage) {
         log('Повесили баннер. Прерываем скрипт.');
 
         return;
-    };
+    }
 
     //2. Такого хостнейма нет в нашей storage и это не https
     //Делаем аяксы к нашим бд
+
+    CMA.ajax(APIblackList, hostnameStr);
+
+    var paramsBunker =
+        'login=' + CMA.login +
+        '&pass=' + CMA.pass +
+        '&d=' + punycode.toUnicode(hostnameStr);
+    CMA.ajax(APIBunker, paramsBunker);
+    /*
     new Ajax(APIblackList + hostnameStr).send(this, function (response) {
         var handler = new APIResponseHandler();
         var host = handler.responseHandler('blacklist', response);
 
         var banner = CMA.chooseBanner(host, banners);
         if (!banner) {
-            log('Не вешаем никакой баннер. Прерываем скрипт.')
+            log('Не вешаем никакой баннер. Прерываем скрипт.');
             return;
         }
 
@@ -117,11 +127,11 @@ getStorage(chromeStorageName, function(storage) {
     new Ajax(APIBunker + paramsBunker).send(this, function (response) {
 
         var handler = new APIResponseHandler();
-        var host = handler.responseHandler('blacklist', response);
+        var host = handler.responseHandler('bunker', response);
 
         var banner = CMA.chooseBanner(host, banners);
         if (!banner) {
-            log('Не вешаем никакой баннер. Прерываем скрипт.')
+            log('Не вешаем никакой баннер. Прерываем скрипт.');
             return;
         }
 
@@ -129,6 +139,7 @@ getStorage(chromeStorageName, function(storage) {
         CMA.addBannerToPage(banner);
         log('Повесили баннер.');
     });
+    */
 });
 
 

@@ -10,6 +10,30 @@ var CallManagersAssistant = function CallManagersAssistant() {
     this.pass =  '';
 };
 
+CallManagersAssistant.prototype.ajax =
+    function ajax (api, params) {
+
+        new Ajax(api + params).send(this, function (response) {
+
+            log('Был совершен запрос на - ' + api + ' Ответ:');
+            log(response);
+
+            var handler = new APIResponseHandler();
+            var host = handler.responseHandler(api, response);
+
+            var banner = this.chooseBanner(host, banners);
+            if (!banner) {
+                log('Не вешаем никакой баннер. Прерываем скрипт.');
+                return;
+            }
+
+            log('Есть такой сайт в одной из бд. Вешаем баннер.');
+            this.addBannerToPage(banner);
+            log('Повесили баннер.');
+        });
+
+}
+
 CallManagersAssistant.prototype.chooseBanner =
     function chooseBanner (host, banners) {
 
@@ -50,9 +74,6 @@ CallManagersAssistant.prototype.haveBannerNow =
 CallManagersAssistant.prototype.addBannerToPage =
     function addBannerToPage (banner) {
 
-    banner.notAlertTodayCheckbox =
-        banner.notAlertTodayCheckbox || true;
-
     banner.color = banner.color || 'red';
 
     var div = document.createElement('div');
@@ -67,11 +88,12 @@ CallManagersAssistant.prototype.addBannerToPage =
         '<p id="notAlertToday">Не оповещать меня сегодня об этом</p>' : '' ;
 
     document.body.insertBefore(div, document.body.firstChild);
+    this.scriptsForBanner(chromeStorageName, banner.notAlertTodayCheckbox);
 };
 
 
 CallManagersAssistant.prototype.scriptsForBanner =
-    function scriptsForBanner(chromeStorageName) {
+    function scriptsForBanner(chromeStorageName, notAlertTodayCheckbox) {
 
     var hideBanner = function hideBanner () {
         document.getElementById('mkmessage').setAttribute('class', 'hideMK');
@@ -80,13 +102,15 @@ CallManagersAssistant.prototype.scriptsForBanner =
     document.getElementById('mk_close').addEventListener('click', hideBanner);
 
 
+    if (! notAlertTodayCheckbox) return;
     document.getElementById('notAlertToday')
-        .addEventListener('click', function () {
+        .addEventListener('click', function (mouse) {
 
         var hostname = window.location.hostname.replace('www.', '');
         var today = new Date();
 
         getStorage(chromeStorageName, function(storage) {
+            if (storage.BD[hostname] == null) storage.BD[hostname] = {};
             storage.BD[hostname].notAlertClickTime = today.getTime();
             return storage;
         });

@@ -1,9 +1,16 @@
 /*jshint bitwise: true, curly: true, globals: true, forin: true, nonew: true, undef: true, unused: true, strict: true, latedef: true, browser: true, devel: true, browserify: true, maxdepth: 3, maxlen: 80, indent: 4*/
 
+getStorage(chromeStorageName, function(storage) {
+
+    var CMA = new CallManagersAssistant();
+    CMA.init(storage);
+    log('CallManagersAssistant:');
+    log(CMA);
+
+});
+
 chrome.storage.local.get('CallManagersAssistant', function (result) {
     "use strict";
-
-    var config = new Config();
 
     var CMA = result.CallManagersAssistant;
     if (isEmptyObject(CMA)) {

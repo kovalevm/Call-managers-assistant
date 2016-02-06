@@ -51,20 +51,20 @@
                 /*"Config.js",*/
                 "classes/APIResponseHandler.js",
                 "classes/Ajax.js",
-                /*"classes/App.js",*/
+                "classes/Banner.js",
                 "classes/CallManagerAssistant.js",
                 /*"init.js"*/
-                "mian.js"
+                "main.js"
             ]
     }
 
   ],
     "background": {
         "scripts": [
-            "help_functions.js"/*,
-            "Config.js",
+            "help_functions.js"
+            "classes/CallManagerAssistant.js",
             "classes/Ajax.js",
-            "background.js"*/
+            "background.js"
         ]
     },
     "permissions": [
