@@ -1,5 +1,10 @@
+//очищаем бд в нашей памяти
 document.getElementById('cleanBD').addEventListener('click', function(el) {
-    chrome.storage.local.remove('CallManagersAssistant', function () {});
+    getStorage(CMAconf.chromeStorageName, function(storage) {
+        storage.BD = {};
+        return storage;
+    })
+    //chrome.storage.local.remove('CallManagersAssistant', function () {});
 })
 
 //document.getElementById('cleanBD').addEventListener('click', function(el) {

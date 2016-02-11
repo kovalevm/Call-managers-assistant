@@ -64,20 +64,35 @@ CallManagersAssistant.prototype.chooseBanner =
     return false;
 };
 
-CallManagersAssistant.prototype.haveBannerNow =
-    function haveBannerNow () {
-
-    return document.getElementById('mkmessage') ? true : false;
-};
+//CallManagersAssistant.prototype.haveBannerNow =
+//    function haveBannerNow () {
+//
+//    return document.getElementById('mkmessage') ? true : false;
+//};
 
 
 CallManagersAssistant.prototype.addBannerToPage =
     function addBannerToPage (banner) {
 
+    //Сначала проверим:
+    //1.не установлен ли уже баннер?
+    //2.если да, то его приритет ниже того баннера, который мы сейчас хотим разместить
+    var currentBanner = document.getElementById('mkmessage');
+    if (currentBanner !== null) {
+        log(currentBanner.getAttribute('priority'));
+        if (banner.priority <= currentBanner.getAttribute('priority')) {
+            console.warn('CMA. Попытка повесить баннер меньший по приоритету.');
+            return;
+        } else {
+            currentBanner.parentNode.removeChild(currentBanner);
+        }
+    }
+
     banner.color = banner.color || 'red';
 
     var div = document.createElement('div');
     div.setAttribute('id', 'mkmessage');
+    div.setAttribute('priority', banner.priority);
     div.className = 'mk-back-' + banner.color;
 
     div.innerHTML =

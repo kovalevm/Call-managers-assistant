@@ -60,19 +60,23 @@ function getStorage(storageName, func) {
 
         if (result == null) return;
 
-        var objToSave = {};
-        objToSave[storageName] = JSON.stringify(result);
-        log('Сейчас сохраняется в базу')
-        log(objToSave);
-        chrome.storage.local.set(objToSave);
+        setStorage(storageName, result);
     });
+}
+
+function setStorage(storageName, storage) {
+    var objToSave = {};
+    objToSave[storageName] = JSON.stringify(storage);
+    log('Сейчас сохраняется в базу:')
+    log(objToSave);
+    chrome.storage.local.set(objToSave);
 }
 
 function storageInit() {
     return {
         BD : {},
-        lastCheckRelevanceBD: 0,
-        lastModifiedHTTPS: 0,
+//        lastCheckRelevanceBD: 0,
+//        lastModifiedHTTPS: 0,
         logAndPassСorrectly: null,
         login: "",
         pass: ""

@@ -7,13 +7,12 @@ getStorage(CMAconf.chromeStorageName, function (storage) {
     log('CallManagersAssistant:');
     log(CMA);
 
-    //Удаляем из бд все хосты чьи notAlertClickTime находятся не в пределе последних 12 часов
+    //Удаляем из бд все хосты чьи notAlertClickTime находятся не в пределе последних 12 часов. Такое условие сделано для того чтобы отсечь notAlertClickTime равный null и т.д., потому что как выяснилось на практике такое бывает.
     var halfday = (12 * 60 * 60 * 1000),
         now = (new Date()).getTime();
 
     for (var host in CMA.BD) {
         var nACT = CMA.BD[host].notAlertClickTime;
-
         if (nACT > (now - halfday) && nACT < now) {} else {
             delete CMA.BD[host];
         }
@@ -21,14 +20,14 @@ getStorage(CMAconf.chromeStorageName, function (storage) {
 
     var ajax = new Ajax(CMAconf.APIblackListHTTPS);
 
-    return ajax.send(this, function (response) {
+    ajax.send(this, function (response) {
         var resp = JSON.parse(response);
 
         resp.actualHosts.forEach(function(host, i) {
             CMA.BD[host] = { thereInBlackList: true };
         })
 
-        return CMA;
+        setStorage(CMAconf.chromeStorageName, CMA);
     });
 });
 /*
