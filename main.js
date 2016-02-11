@@ -1,46 +1,14 @@
 /*jshint bitwise: true, globals: true, forin: true, nonew: true, undef: true, unused: true, strict: true, latedef: true, browser: true, devel: true, browserify: true, maxdepth: 3, maxlen: 80, indent: 4*/
 "use strict";
 
-//Конфигурационные переменные
-var APIblackList = 'http://mihail.ves-yug.ru/black_list_sites/api/',
-    APIBunker = 'http://bunker-yug.ru/seo_status.php?',
-    chromeStorageName = 'CallManagersAssistant',
-    ignoreHostnames = ['yandex.ru'],
-    banners = {
-        incorrectLogin : {
-            text : 'Логин или пароль введены неверно или не введены вообще. ' +
-            'Введите их, нажав на иконку с красной телефонной трубкой ' +
-            'справа от адресной строки.',
-            notAlertTodayCheckbox : false
-        },
-        inMain : {
-            text : 'Есть упоминание об этом сайте в главных!'
-        },
-        inCustomer : {
-            text : 'Есть в базе. Статус продвижения - '+
-            '<ins>%status%</ins>, отчетная дата - %repDate%.'
-        },
-        inBlackList : {
-            text : 'Этот сайт есть в ЧС!!',
-            priority : 1
-        }
-    },
-
-    bunkerApiErrors = {
-        '002': 'Ошибка базы данных бункера',
-        '004': 'Не задан домен при запросе к бд бункера',
-        '005': 'Вы не уложилось во время работы бункера',
-        '006': 'Не правильный логин или пароль'
-    };
-
 
 //Хостнейм есть в списке игнорируемых?
-if (in_array(window.location.hostname.replace('www.', ''), ignoreHostnames)) {
+if (in_array(window.location.hostname.replace('www.', ''), CMAconf.ignoreHostnames)) {
     throw new Error('Этот домен в списке игнорируемых. Прерываем скрипт.');
 }
 
 //Берем в памяти chromeStorageName
-getStorage(chromeStorageName, function(storage) {
+getStorage(CMAconf.chromeStorageName, function(storage) {
 
     var CMA = new CallManagersAssistant();
     CMA.init(storage);
@@ -49,7 +17,7 @@ getStorage(chromeStorageName, function(storage) {
 
     //Проверяем авторизацию пользователя
     if (!!!CMA.logAndPassСorrectly || !CMA.logAndPassСorrectly) {
-        var incorrectLoginBanner = new Banner(banners.incorrectLogin);
+        var incorrectLoginBanner = new Banner(CMAconf.banners.incorrectLogin);
         incorrectLoginBanner.notAlertTodayCheckbox = false;
         CMA.addBannerToPage(incorrectLoginBanner);
         log('Ошибка с логином и паролем. Прерываем скрипт.');
@@ -81,7 +49,7 @@ getStorage(chromeStorageName, function(storage) {
 
     if (location.protocol === 'https:') {
 
-        var banner = CMA.chooseBanner(host, banners);
+        var banner = CMA.chooseBanner(hostnameObj, CMAconf.banners);
         if (!banner) {
             log('Не вешаем никакой баннер. Прерываем скрипт.');
             return;
@@ -96,14 +64,17 @@ getStorage(chromeStorageName, function(storage) {
 
     //2. Такого хостнейма нет в нашей storage и это не https
     //Делаем аяксы к нашим бд
+    CMA.ajax(
+        CMAconf.APIblackList,
+        CMAconf.paramsBlackList(hostnameStr)
+    );
 
-    CMA.ajax(APIblackList, hostnameStr);
+    CMA.ajax(
+        CMAconf.APIBunker,
+        CMAconf.paramsBunker(CMA.login, CMA.pass, hostnameStr)
+    );
 
-    var paramsBunker =
-        'login=' + CMA.login +
-        '&pass=' + CMA.pass +
-        '&d=' + punycode.toUnicode(hostnameStr);
-    CMA.ajax(APIBunker, paramsBunker);
+
     /*
     new Ajax(APIblackList + hostnameStr).send(this, function (response) {
         var handler = new APIResponseHandler();

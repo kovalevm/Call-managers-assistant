@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "Call manager`s assistant",
-    "version": "0.9.1",
+    "version": "0.9.3",
 
     "description": "Не знаешь, есть ли сайт у нас на продвижении? Я помогу узнать!",
     "icons": {
@@ -48,7 +48,7 @@
             "js": [
                 "notmyscripts/punycode.js",
                 "help_functions.js",
-                /*"Config.js",*/
+                "Config.js",
                 "classes/APIResponseHandler.js",
                 "classes/Ajax.js",
                 "classes/Banner.js",
@@ -61,7 +61,8 @@
   ],
     "background": {
         "scripts": [
-            "help_functions.js"
+            "help_functions.js",
+            "Config.js",
             "classes/CallManagerAssistant.js",
             "classes/Ajax.js",
             "background.js"

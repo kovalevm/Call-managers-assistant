@@ -21,7 +21,7 @@ APIResponseHandler.prototype.responseHandler = function (server, response) {
     var host = {};
     var r = {};
     //Валидируем пришедшие данные
-    console.assert(in_array(server, [APIblackList, APIBunker]));
+    console.assert(in_array(server, [CMAconf.APIblackList, CMAconf.APIBunker]));
     console.assert(typeof host == 'object', 'host не является объектом');
     try {
         r = JSON.parse(response);
@@ -30,10 +30,10 @@ APIResponseHandler.prototype.responseHandler = function (server, response) {
     }
 
 
-    if (server === APIBunker) {
+    if (server === CMAconf.APIBunker) {
 
         if (r.result === 'err') {
-            log('Ошибка АПИ бункера: ' + bunkerApiErrors[r.code]);
+            log('Ошибка АПИ бункера: ' + CMAconf.bunkerApiErrors[r.code]);
         } else if (r.result === 'ok' || r.result_2 === 'ok') {
 
             host.ajaxTime = (new Date()).getTime();
@@ -55,7 +55,7 @@ APIResponseHandler.prototype.responseHandler = function (server, response) {
             }
         }
 
-    } else if (server === APIblackList) {
+    } else if (server === CMAconf.APIblackList) {
 
         if (r.code === 0) {
             log('Ошибка в бд черного листа');

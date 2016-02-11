@@ -21,7 +21,7 @@ CallManagersAssistant.prototype.ajax =
             var handler = new APIResponseHandler();
             var host = handler.responseHandler(api, response);
 
-            var banner = this.chooseBanner(host, banners);
+            var banner = this.chooseBanner(host, CMAconf.banners);
             if (!banner) {
                 log('Не вешаем никакой баннер. Прерываем скрипт.');
                 return;
@@ -88,7 +88,7 @@ CallManagersAssistant.prototype.addBannerToPage =
         '<p id="notAlertToday">Не оповещать меня сегодня об этом</p>' : '' ;
 
     document.body.insertBefore(div, document.body.firstChild);
-    this.scriptsForBanner(chromeStorageName, banner.notAlertTodayCheckbox);
+    this.scriptsForBanner(CMAconf.chromeStorageName, banner.notAlertTodayCheckbox);
 };
 
 

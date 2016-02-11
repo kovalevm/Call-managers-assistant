@@ -61,7 +61,9 @@ function getStorage(storageName, func) {
         if (result == null) return;
 
         var objToSave = {};
-        objToSave[storageName] = JSON.stringify(result)
+        objToSave[storageName] = JSON.stringify(result);
+        log('Сейчас сохраняется в базу')
+        log(objToSave);
         chrome.storage.local.set(objToSave);
     });
 }

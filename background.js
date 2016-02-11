@@ -1,14 +1,37 @@
 /*jshint bitwise: true, curly: true, globals: true, forin: true, nonew: true, undef: true, unused: true, strict: true, latedef: true, browser: true, devel: true, browserify: true, maxdepth: 3, maxlen: 80, indent: 4*/
 
-getStorage(chromeStorageName, function(storage) {
+getStorage(CMAconf.chromeStorageName, function (storage) {
 
     var CMA = new CallManagersAssistant();
     CMA.init(storage);
     log('CallManagersAssistant:');
     log(CMA);
 
-});
+    //Удаляем из бд все хосты чьи notAlertClickTime находятся не в пределе последних 12 часов
+    var halfday = (12 * 60 * 60 * 1000),
+        now = (new Date()).getTime();
 
+    for (var host in CMA.BD) {
+        var nACT = CMA.BD[host].notAlertClickTime;
+
+        if (nACT > (now - halfday) && nACT < now) {} else {
+            delete CMA.BD[host];
+        }
+    }
+
+    var ajax = new Ajax(CMAconf.APIblackListHTTPS);
+
+    return ajax.send(this, function (response) {
+        var resp = JSON.parse(response);
+
+        resp.actualHosts.forEach(function(host, i) {
+            CMA.BD[host] = { thereInBlackList: true };
+        })
+
+        return CMA;
+    });
+});
+/*
 chrome.storage.local.get('CallManagersAssistant', function (result) {
     "use strict";
 
