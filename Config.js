@@ -7,10 +7,12 @@ var CMAconf  = {
         'http://mihail.ves-yug.ru/black_list_sites/api/getallhttps',
 
     APIBunker  : 'http://bunker-yug.ru/seo_status.php?',
-    paramsBunker : function (bunkerLogin, bunkerPassword, host) {
-        return 'login=' + bunkerLogin +
-        '&pass=' + bunkerPassword +
-        '&d=' + punycode.toUnicode(host);
+    paramsBunker: function (bunkerLogin, bunkerPassword, host) {
+        var r = 'login=' + bunkerLogin +
+            '&pass=' + bunkerPassword;
+        if (host) r += '&d=' + punycode.toUnicode(host);
+        return r;
+
     },
 
     chromeStorageName  : 'CallManagersAssistant',

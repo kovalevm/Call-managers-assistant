@@ -10,6 +10,7 @@ var Ajax = function (handlerPath, method, params) {
 
 
 Ajax.prototype.send = function (obj, success) {
+    log(this);
     this.r.open(this.m, this.path, true);
 //    this.r.setRequestHeader("If-Modified-Since", 'Last-Modified');
     if (this.m === 'POST') {

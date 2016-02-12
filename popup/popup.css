@@ -11,12 +11,24 @@ body {
 
 .bunker-form {
     width: 300px;
+}
 
+.hide {
+    display: none;
+}
+.error {
+   color: red;
+}
+
+.success {
+   color: green;
 }
 
 .message {
-
+    font-weight: bold;
+    font-size: 13px;
 }
+
 blockquote {
 margin-top: 20px;
 }
@@ -41,4 +53,20 @@ blockquote p {
     font-style: italic;
     font-size: 13px;
     text-align: justify;
+}
+
+textarea#problemText {
+    resize: none;
+    /* width: 95%; */
+    margin: 5px 2%;
+}
+
+#probleb-form input {
+    width: 95%;
+    margin: 1px 2%;
+}
+
+div#probleb-form {
+    margin-top: 5px;
+    background-color: beige;
 }

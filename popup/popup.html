@@ -7,6 +7,7 @@
     <script src="../notmyscripts/jquery.js"></script>
     <script src="../help_functions.js"></script>
     <script src="../Config.js"></script>
+    <script src="../classes/Ajax.js"></script>
     <link rel="stylesheet" href="popup.css">
 
 </head>
@@ -34,7 +35,7 @@
             </td>
         </tr>
     </table>
-    <p class="bunker-message"></p>
+    <p id="bunker-message" class="message"></p>
     <!--    <button>Очистить историю</button>-->
     <blockquote>
         <p>Ничто не производит на клиента большего впечатления, чем осознание того факта, что вы потратили на него свое время и усилия, чтобы собрать информацию о его ситуации и способах решения его проблем.
@@ -42,7 +43,22 @@
         <p>Брайан Трейси</p>
     </blockquote>
     <button id="cleanBD">Очистить историю</button>
+    <span id="cleanBDspan" class="message"></span>
+    <br>
+    <button id="problemToggle">Сообщить о проблеме</button>
     <a style="float:right" target="_blank" href="http://mihail.ves-yug.ru/black_list_sites">Черный список</a>
+    <br>
+    <div id="probleb-form" class="hide">
+    <label>Контакт: <input type="text" placeholder="Фамилия, Имя, Отдел"></label>
+    <br>
+    <label>E-mail:   <input type="email" placeholder="На него будет отправлен ответ"></label>
+    <br>
+    <label for="problemText">Проблема:</label>
+    <textarea maxlength="400" id="problemText" name="problemText" cols="45" rows="6" placeholder="Опишите проблему как можно более конкретно. Если на каком-то сайте не работает скрипт, то укажите на каком."></textarea>
+    <br>
+    <button id="problemSend">Сообщить</button>
+    <span id="problemSendSpan" class="message" ></span>
+</div>
 
 
 <!--
