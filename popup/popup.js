@@ -61,21 +61,42 @@ document.getElementById('problemToggle').addEventListener('click', function (el)
 
 //Отправляем проблему
 document.getElementById('problemSend').addEventListener('click', function (el) {
-    var problemText = document.getElementById('problemText').value,
+    var text = document.getElementById('problemText').value,
+        name = document.getElementById('name-problem').value,
+        email = document.getElementById('email-problem').value,
         message = document.getElementById('problemSendSpan');
 
-    if (problemText == '') {
+
+    if (text.length < 5 || name.length < 3 || email.length < 5) {
         message.classList.add('error');
-        message.innerHTML = 'Пустое поле.'
+        message.innerHTML = 'Не все поля заполнены корректно.'
         return;
     }
-    O8iAd9LpNFcodCuo3y7kmg
+    //O8iAd9LpNFcodCuo3y7kmg
     getStorage(CMAconf.chromeStorageName, function (storage) {
         var ajax = new Ajax(
             'https://mandrillapp.com/api/1.0/messages/send.json',
             'POST',
-
+            'application/json;charset=UTF-8',
+            JSON.stringify({
+                key: 'O8iAd9LpNFcodCuo3y7kmg',
+                message : {
+                    from_email : email,
+                    to : [{'email': 'mihail.it7@gmail.com', 'type': 'to'}],
+                    autotext : 'true',
+                    subject : 'Сообщение о проблеме Call manager`s assistant',
+                    html :
+                    '<p>Сообщение от - ' + name + '</p>'
+                    +'<p> Текст сообщения:</p><p>' + text + '</p>' +
+                    + '<p> Память:</p><p>' + JSON.stringify(storage) + '</p>'
+                }
+            })
         );
+
+        ajax.send(this, function (response) {
+            log(response);
+        })
+
     })
 })
 

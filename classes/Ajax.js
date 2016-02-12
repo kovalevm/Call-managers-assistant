@@ -1,23 +1,20 @@
-var Ajax = function (handlerPath, method, params) {
+var Ajax = function (handlerPath, method, contentType, params) {
     if (!handlerPath) throw new Error('Не задан адрес для ajax запроса');
 
     this.r = new XMLHttpRequest();
     this.path = handlerPath;
     this.m = method ? method : 'GET';
+    this.cT = contentType ? contentType : "application/x-www-form-urlencoded";
     this.p = params ? params : null;
     //  this.async = async ? async : true;
 }
 
 
 Ajax.prototype.send = function (obj, success) {
-    log(this);
     this.r.open(this.m, this.path, true);
 //    this.r.setRequestHeader("If-Modified-Since", 'Last-Modified');
     if (this.m === 'POST') {
-        this.r.setRequestHeader(
-            "Content-Type",
-            "application/x-www-form-urlencoded"
-        );
+        this.r.setRequestHeader("Content-Type", this.cT);
     }
 
     this.r.onreadystatechange = function () {
