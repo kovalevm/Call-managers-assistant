@@ -1,6 +1,6 @@
 /*jslint sloppy: true*/
 
-var debug = true,
+var debug = false,
     log,
     logG,
     logGE,

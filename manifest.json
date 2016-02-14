@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "Call manager`s assistant",
-    "version": "1.0.0",
+    "version": "0.9.5",
 
     "description": "Не знаешь, есть ли сайт у нас на продвижении? Я помогу узнать!",
     "icons": {
