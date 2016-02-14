@@ -13,9 +13,14 @@
 </head>
 
 <body>
+    <h1>Call manager`s assistant</h1>
+    <p style="text-align: center; margin-top: -4px; font-style: italic;">Ваш помощник в поиске новых клиентов.</p>
+    <p>Для работы расширения необходимо указать логин и пароль от бункера.</p>
     <table class="bunker-form">
         <tr>
-            <th colspan="2">Введите логин и пароль от бункера:</th>
+            <td colspan="2" style="width:15px">
+                <p id="bunker-message" class="message"></p>
+            </td>
         </tr>
         <tr>
             <td><span>Логин:</span></td>
@@ -32,48 +37,64 @@
         <tr>
             <td colspan="2">
                 <button id="bunkerBtn">Сохранить и подключиться</button>
+                <br>
+
             </td>
         </tr>
     </table>
-    <p id="bunker-message" class="message"></p>
+    <p><a target="_blank" style="float:right; margin-top:5px;" href="http://mihail.ves-yug.ru/black_list_sites">Ссылка на черный список</a></p>
+
+    <hr style="margin: 5px 1px; clear:both">
     <!--    <button>Очистить историю</button>-->
+    <!--
     <blockquote>
         <p>Ничто не производит на клиента большего впечатления, чем осознание того факта, что вы потратили на него свое время и усилия, чтобы собрать информацию о его ситуации и способах решения его проблем.
         </p>
         <p>Брайан Трейси</p>
     </blockquote>
-    <button id="cleanBD">Очистить историю</button>
-    <span id="cleanBDspan" class="message"></span>
-    <br>
-    <button id="problemToggle">Сообщить о проблеме</button>
-    <a style="float:right" target="_blank" href="http://mihail.ves-yug.ru/black_list_sites">Черный список</a>
-    <br>
-    <div id="probleb-form" class="hide">
-    <label>Контакт: <input id="name-problem" type="text" placeholder="Фамилия, Имя, Отдел"></label>
-    <br>
-    <label>E-mail:   <input id="email-problem" type="email" placeholder="На него будет отправлен ответ"></label>
-    <br>
-    <label for="problemText">Проблема:</label>
-    <textarea maxlength="400" id="problemText" name="problemText" cols="45" rows="6" placeholder="Опишите проблему как можно более конкретно. Если на каком-то сайте не работает скрипт, то укажите на каком."></textarea>
-    <br>
-    <button id="problemSend">Сообщить</button>
-    <span id="problemSendSpan" class="message" ></span>
-</div>
-
-
-<!--
-    <div class="dashboard">
-        <p>
-            <button id="cleanBD">Очистить историю</button>
-        </p>
-
-        <p>
-            <input type="checkbox" id="debug" value="CheckBox">
-            <label for="debug">Дебаг режим</label>
-        </p>
-
-    </div>
 -->
+    <div id="pamyatka">
+        <div class="pamyatka">
+            <p class="firstP">Важная информация!</p>
+            <p>Cа<span id="debugToggle">й</span>ты, работающие на протоколе HTTP<b>S</b>, и бункер <b style=" text-decoration: underline;">несовместимы</b> :) Т.е. если Вы видите вышеуказанный протокол, то, возможно, сайт есть в бункере (С черным листом в этом плане лучше, но тоже не идеально).</p>
+        </div>
+        <div class="pamyatka">
+
+            <p>Если что-то не работает, или работает неправильно, то сообщите разработчикам об этом -
+                <button id="problemToggle">Сообщить о проблеме</button>
+            </p>
+        </div>
+        <div class="pamyatka">
+            <p>Или попробывать очистить память расширения -
+                <button id="cleanBD">Очистить память</button> <span id="cleanBDspan" class="message"></span>
+                <br> но лучше сообщить, так как очистка - временная мера.
+            </p>
+        </div>
+    </div>
+
+    <div id="probleb-form" class="hide">
+        <h2>Обратная связь</h2>
+        <label>Контактная информация:
+            <input id="name-problem" type="text" placeholder="Фамилия, Имя, Отдел">
+        </label>
+        <br>
+        <label>E-mail:
+            <input id="email-problem" type="email" placeholder="На него будет отправлен ответ">
+        </label>
+        <br>
+        <label for="problemText">Проблема:</label>
+        <textarea maxlength="400" id="problemText" name="problemText" cols="45" rows="6" placeholder="Опишите проблему как можно более конкретно. Если на каком-то сайте не работает скрипт, то укажите на каком."></textarea>
+        <br>
+        <button id="problemSend">Сообщить</button>
+        <br>
+        <span id="problemSendSpan" class="message"></span>
+    </div>
+
+
+    <footer>
+        <span class="mk">Разработал - <a href="mailto:kovalev.mixail@gmail.com">kovalev.mixail@gmail.com</a></span>
+        <span class="years">2015</span>
+    </footer>
 
     <script src="popup.js"></script>
 </body>

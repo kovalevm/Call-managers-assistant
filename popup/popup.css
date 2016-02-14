@@ -1,27 +1,33 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: Tahoma, Sans-Serif;
+    font-size: 14px
 }
+
 body {
     width: 350px;
     /*            height: 600px;*/
-    background: #ececec;
-/*    border: 1px solid black;*/
+    background: url('../img/bg.png') #ececec;
+    /*    border: 1px solid black;*/
+    margin: 3px;
 }
 
 .bunker-form {
-    width: 300px;
+    width: initial;
+    margin: 10px auto 0;
 }
 
 .hide {
     display: none;
 }
+
 .error {
-   color: red;
+    color: red;
 }
 
 .success {
-   color: green;
+    color: green;
 }
 
 .message {
@@ -29,8 +35,36 @@ body {
     font-size: 13px;
 }
 
+button {
+    margin: 2px 0;
+    padding: 2px;
+    /*     border-radius: 3px; */
+}
+
+input, textarea {
+    padding: 1px 3px;
+}
+
+p {
+    margin-bottom: 5px;
+}
+
+h2 {
+    text-align: center;
+}
+
+h1 {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+table.bunker-form td[colspan="2"] {
+    text-align: center;
+}
+
 blockquote {
-margin-top: 20px;
+    margin-top: 20px;
 }
 
 blockquote:before,
@@ -38,16 +72,19 @@ blockquote:after {
     font-size: 2em;
     color: #800;
 }
+
 blockquote:before {
     content: '«';
     float: left;
     margin-top: -0.4em;
 }
+
 blockquote:after {
     content: '»';
     float: right;
     margin-top: -2.0em;
 }
+
 blockquote p {
     margin: 1em 2em;
     font-style: italic;
@@ -57,16 +94,67 @@ blockquote p {
 
 textarea#problemText {
     resize: none;
-    /* width: 95%; */
-    margin: 5px 2%;
+    width: 330px;
+    margin: 1px auto;
 }
 
 #probleb-form input {
-    width: 95%;
-    margin: 1px 2%;
+    width: 330px;
+    margin: 1px auto;
 }
 
 div#probleb-form {
     margin-top: 5px;
-    background-color: beige;
+    background-color: rgba(220, 245, 220, 0.62);
+}
+
+.pamyatka {
+    background: url('../img/pamytka_icon.png') no-repeat 5px 50%;
+    background-size: 20px;
+    margin: 0 5px 0 10px;
+    padding: 5px 7px 7px 30px;
+    background-color: rgba(214, 211, 211, 0.78);
+}
+
+.pamyatka p.firstP {
+    margin-bottom: 7px;
+    font-style: italic;
+    margin-left: -10px;
+}
+
+.pamyatka p,
+.pamyatka b,
+.pamyatka button,
+.pamyatka span {
+    font-size: 12px;
+}
+
+footer {
+    margin-top: 10px;
+}
+
+footer span,
+footer span a {
+    font-size: 12px;
+}
+
+footer span.mk {
+    opacity: 0.35;
+}
+
+footer span.mk:hover {
+    opacity: 1;
+}
+
+footer span.mk a {
+    color: black;
+    text-decoration: none;
+}
+
+footer span.mk a:hover {
+    text-decoration: underline;
+}
+
+footer .years {
+    float: right;
 }

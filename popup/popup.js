@@ -9,13 +9,13 @@ document.addEventListener('DOMContentLoaded', function () {
 //очищаем бд в нашей памяти
 document.getElementById('cleanBD').addEventListener('click', function (el) {
     getStorage(CMAconf.chromeStorageName, function (storage) {
-            storage.BD = {};
-            return storage;
+        storage.BD = {};
+        return storage;
     })
     var m = document.getElementById('cleanBDspan');
     m.classList.add('success');
-    m.innerHTML = 'ОК';
-        //chrome.storage.local.remove('CallManagersAssistant', function () {});
+    m.innerHTML = 'Готово!';
+    //chrome.storage.local.remove('CallManagersAssistant', function () {});
 })
 
 
@@ -56,6 +56,7 @@ document.getElementById('bunkerBtn').addEventListener('click', function (el) {
 //show/hide форму Сообщить о проблеме
 document.getElementById('problemToggle').addEventListener('click', function (el) {
     document.getElementById('probleb-form').classList.toggle('hide');
+    document.getElementById('pamyatka').classList.toggle('hide');
 })
 
 
@@ -66,35 +67,79 @@ document.getElementById('problemSend').addEventListener('click', function (el) {
         email = document.getElementById('email-problem').value,
         message = document.getElementById('problemSendSpan');
 
+    message.classList.remove('success');
+    message.classList.remove('error');
+    message.innerHTML = 'Идет отправка, пожалуйста, подождите...';
 
-    if (text.length < 5 || name.length < 3 || email.length < 5) {
+    if (text.length < 5 || name.length < 3 || !validate_email(email)) {
         message.classList.add('error');
         message.innerHTML = 'Не все поля заполнены корректно.'
         return;
     }
     //O8iAd9LpNFcodCuo3y7kmg
     getStorage(CMAconf.chromeStorageName, function (storage) {
+
+        // Проверяем залогиненность пользователя
+        if (storage.logAndPassСorrectly != true) {
+            message.classList.add('error');
+            message.innerHTML = 'Вы не авторизованы в бункере!'
+            return;
+        }
+
         var ajax = new Ajax(
             'https://mandrillapp.com/api/1.0/messages/send.json',
             'POST',
             'application/json;charset=UTF-8',
             JSON.stringify({
                 key: 'O8iAd9LpNFcodCuo3y7kmg',
-                message : {
-                    from_email : email,
-                    to : [{'email': 'mihail.it7@gmail.com', 'type': 'to'}],
-                    autotext : 'true',
-                    subject : 'Сообщение о проблеме Call manager`s assistant',
-                    html :
-                    '<p>Сообщение от - ' + name + '</p>'
-                    +'<p> Текст сообщения:</p><p>' + text + '</p>' +
-                    + '<p> Память:</p><p>' + JSON.stringify(storage) + '</p>'
+                message: {
+                    from_email: email,
+                    to: [
+                        {
+                            'email': 'kovalev.mixail@gmail.com',
+                            'type': 'to'
+                        },
+                        {
+                            'email': 'mihail.it7@gmail.com',
+                            'type': 'to'
+                        }],
+                    autotext: 'true',
+                    subject: 'Сообщение о проблеме Call manager`s assistant',
+                    html: '<p>Сообщение от - ' + name + '</p>' + '<p> Текст сообщения:</p><p>' + text + '</p>' +
+                        +'<p> Память:</p><p>' +
+                        JSON.stringify(storage) +
+                        '</p>'
                 }
             })
         );
 
         ajax.send(this, function (response) {
             log(response);
+            try {
+                response = JSON.parse(response);
+            } catch (e) {
+                console.log('Ошибка при распарсивании ответа сервера.');
+                message.classList.add('error');
+                message.innerHTML = 'Ошибка почтового сервера. Попробуйте позже...';
+                return;
+            }
+            log(response);
+            var success = false;
+            response.forEach(function (obj, i) {
+                if (obj.status == 'sent' || obj.status == 'queued' || obj.status == 'scheduled')
+                    success = true;
+            })
+
+            if (success) {
+                message.classList.add('success');
+                message.innerHTML = 'Сообщение отправлено успешно!';
+            } else {
+                message.classList.add('error');
+                message.innerHTML = 'Ошибка почтового сервера. Попробуйте позже...';
+            }
+
+
+
         })
 
     })
@@ -124,6 +169,14 @@ function validateLoginAndPass(bunker) {
     //console.log(bunker);
     if (bunker.login === '' || bunker.login.match(russianSymbols) != null) return false;
     if (bunker.pass === '' || bunker.pass.match(russianSymbols) != null) return false;
+    return true;
+}
+
+function validate_email(address) {
+    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    if (reg.test(address) == false) {
+        return false;
+    }
     return true;
 }
 
